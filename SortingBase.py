@@ -1,0 +1,96 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Sep  8 10:55:25 2017
+
+@author: 13383861
+"""
+import collections
+import time
+def timer(function):
+    def wrapper(*args, **kwargs):
+        '''Given a list_to_sort of type element_type, returns the sorted list
+        Args:
+        iterable: A list of elements of a given type
+        Returns:
+        if self.timed: 
+            tuple(iterable ordered descending, time taken to sort)
+        else:
+            iterable ordered descending
+        '''
+        start = time.time()
+        result = function(*args, **kwargs)
+        finish = time.time()
+        print('Function took {} ms to run'.format((finish-start)*1000))
+        return result, (finish-start)*1000
+    return wrapper
+
+def merge(ll,rl):
+    '''merges two sorted lists, ll and rl to give a sorted list'''
+    merged_list = []
+    counter_l=0
+    counter_r=0
+    print('merging {} and {}'.format(ll,rl))
+    while counter_l!=len(ll) or counter_r!=len(rl):
+        if counter_l==len(ll):
+            #since l2 is sorted, just append it on
+            merged_list.extend(rl[counter_r:])
+            return merged_list
+        
+        elif counter_r==len(rl):
+            merged_list.extend(ll[counter_l:])
+            return merged_list
+        
+        else:
+            if ll[counter_l] < rl[counter_r]:
+                merged_list.append(ll[counter_l])
+                counter_l+=1
+            else:
+                merged_list.append(rl[counter_r])
+                counter_r+=1            
+    return merged_list
+        
+
+class SortingBase:
+    def __init__(self, timed):
+        self.timed = timed
+        #if the function is to be timed, use the wrapper
+        if self.timed:
+            self.sort = timer(self.sort)
+            
+    def sort(self, iterable):
+        '''Given a list_to_sort of type element_type, returns the sorted list
+        Args:
+        iterable: A list of elements of a given type
+        Returns:
+        if self.timed: 
+            tuple(iterable ordered descending, time taken to sort)
+        else:
+            iterable ordered descending
+        '''
+        pass
+            
+    def __is_iterable(self,iterable: collections.Iterable):
+        if isinstance(iterable, collections.Iterable):
+            #print('object is iterable')
+            return True
+        else:
+            #return False
+            return TypeError('Can only sort iterable data structure')
+
+    
+    def __iterable_type_uniform(self,iterable: collections.Iterable):
+        datatype = type(iterable[0])
+        if all(map(lambda x: isinstance(x,datatype), iterable)) and hasattr(iterable[0],'__gt__'):
+            #print('iterable is all of a consistent type')
+            return True
+        else:
+            #print('iterable is not consistent type')
+            return TypeError('Iterable is not of a consistent type. Expecting type {}'.format(datatype))
+            
+    def _verify_sortable(self,iterable):
+        '''Ensures that object is actually sortable. If object is not sortable, returns list of TypeError.
+        Unsortable list is detected before sorting has begun'''
+        #Raise all exceptions
+        for i in list(filter(lambda x: isinstance(x, Exception),map(lambda f: f(iterable),[self.__is_iterable, self.__iterable_type_uniform]))):
+            raise i
+       
