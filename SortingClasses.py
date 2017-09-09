@@ -2,9 +2,15 @@
 #To add a sorting function, ensure that the function signature is
 #list = [], type = []
 
-from SortingMeta import SortingMeta
-from SortingBase import SortingBase, merge
+#stdlib
 import collections
+
+#3rd party
+
+#user defined
+from SortingMeta import SortingMeta
+from SortingBase import SortingBase
+
 
 
 
@@ -57,7 +63,7 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
         super().__init__(timed)
         
     def __repr__(self):
-        return 'Bubble Sort'
+        return 'Merge Sort'
     
     def sort(self,iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
         #verify iterable can be sorted
@@ -66,8 +72,29 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
         sublists = [iterable[i:i+1] for i in range(0, len(iterable),1)]
         #iterate through each pair of sublists and merge
         while len(sublists)>1:
+            #merging only works if lists have even number of elements
             if len(sublists)%2:
                 sublists.append([])
-            sublists = list(map(lambda x,y: merge(x,y), sublists[::2], sublists[1::2]))
+            sublists = list(map(lambda x,y: self.merge(x,y), sublists[::2], sublists[1::2]))
         return sublists[0]
 
+class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
+    def __init(self, timed = True):
+        super().__init__(timed)
+        
+    def __repr__(self):
+        return 'Recursive Merge Sort'
+        
+    def sort(self, iterable: collections.Iterable)->'tuple(iterable, int) if timed else iterable':
+        #verify iterable can be sorted
+        self._verify_sortable(iterable)
+        
+        if len(iterable)==1:
+            return iterable
+        else:
+            return(self.merge(self.sort(iterable[:int(len(iterable)/2)]), self.sort(iterable[int(len(iterable)/2):])))
+        
+
+class QuickSort(SortingBase, metaclass = SortingMeta):
+    def sort(self, iterable: collections.Iterable):
+        pass

@@ -24,30 +24,7 @@ def timer(function):
         return result, (finish-start)*1000
     return wrapper
 
-def merge(ll,rl):
-    '''merges two sorted lists, ll and rl to give a sorted list'''
-    merged_list = []
-    counter_l=0
-    counter_r=0
-    print('merging {} and {}'.format(ll,rl))
-    while counter_l!=len(ll) or counter_r!=len(rl):
-        if counter_l==len(ll):
-            #since l2 is sorted, just append it on
-            merged_list.extend(rl[counter_r:])
-            return merged_list
-        
-        elif counter_r==len(rl):
-            merged_list.extend(ll[counter_l:])
-            return merged_list
-        
-        else:
-            if ll[counter_l] < rl[counter_r]:
-                merged_list.append(ll[counter_l])
-                counter_l+=1
-            else:
-                merged_list.append(rl[counter_r])
-                counter_r+=1            
-    return merged_list
+
         
 
 class SortingBase:
@@ -56,6 +33,31 @@ class SortingBase:
         #if the function is to be timed, use the wrapper
         if self.timed:
             self.sort = timer(self.sort)
+       
+    def merge(self,ll,rl):
+        '''merges two sorted lists, ll and rl to give a sorted list'''
+        merged_list = []
+        counter_l=0
+        counter_r=0
+        print('merging {} and {}'.format(ll,rl))
+        while counter_l!=len(ll) or counter_r!=len(rl):
+            if counter_l==len(ll):
+                #since l2 is sorted, just append it on
+                merged_list.extend(rl[counter_r:])
+                return merged_list
+            
+            elif counter_r==len(rl):
+                merged_list.extend(ll[counter_l:])
+                return merged_list
+            
+            else:
+                if ll[counter_l] < rl[counter_r]:
+                    merged_list.append(ll[counter_l])
+                    counter_l+=1
+                else:
+                    merged_list.append(rl[counter_r])
+                    counter_r+=1            
+        return merged_list
             
     def sort(self, iterable):
         '''Given a list_to_sort of type element_type, returns the sorted list

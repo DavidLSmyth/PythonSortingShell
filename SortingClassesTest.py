@@ -28,6 +28,11 @@ class SortingTest(unittest.TestCase):
         l = [random.randint(-1000,1000) for i in range(50)]
         self.assertEqual(sorted(l), x.sort(l))
         
+    def test_mergesort_recursive(self):
+        x = MergeSortRecursive(False)
+        l = [random.randint(-1000,1000) for i in range(50)]
+        self.assertEqual(sorted(l), x.sort(l))
+        
         
         
         
