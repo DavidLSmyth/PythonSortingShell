@@ -4,6 +4,7 @@
 
 #stdlib
 import collections
+from bisect import insort_right
 
 #3rd party
 
@@ -75,7 +76,7 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
             #merging only works if lists have even number of elements
             if len(sublists)%2:
                 sublists.append([])
-            sublists = list(map(lambda x,y: self.merge(x,y), sublists[::2], sublists[1::2]))
+            sublists = list(map(lambda x,y: SortingBase.merge(x,y), sublists[::2], sublists[1::2]))
         return sublists[0]
 
 class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
@@ -92,9 +93,45 @@ class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
         if len(iterable)==1:
             return iterable
         else:
-            return(self.merge(self.sort(iterable[:int(len(iterable)/2)]), self.sort(iterable[int(len(iterable)/2):])))
+            return(SortingBase.merge(self.sort(iterable[:int(len(iterable)/2)]), self.sort(iterable[int(len(iterable)/2):])))
         
 
 class QuickSort(SortingBase, metaclass = SortingMeta):
-    def sort(self, iterable: collections.Iterable):
+    def __init(self, timed = True):
+        super().__init__(timed)
+        
+    def __repr__(self):
+        return 'Quick Sort'
+        
+    def sort(self, iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
         pass
+    
+class InsertionSort(SortingBase, metaclass = SortingMeta):   
+    def __init(self, timed = True):
+        super().__init__(timed)
+        
+    def __repr__(self):
+        return 'Insertion Sort'
+        
+    def sort(self, iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
+        '''Begin with an empty list. Insert element by element to sorted list'''
+        #pop each element off iterable and insert it in the sorted list
+        sorted_list = [iterable[0]]
+        for element in iterable[1:]:
+            position=SortingBase.binary_search(sorted_list,element)
+            if position>=0:
+                sorted_list.insert(position, element)
+            else:
+                sorted_list.insert(-(position+1),element)
+        return sorted_list
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

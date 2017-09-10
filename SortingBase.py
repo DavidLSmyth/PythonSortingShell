@@ -33,13 +33,16 @@ class SortingBase:
         #if the function is to be timed, use the wrapper
         if self.timed:
             self.sort = timer(self.sort)
-       
+            
+    #should be able to merge two lists even if class is not instantiated
+    #this is really an auxiliary method and should probably go in its own file...
+    @classmethod
     def merge(self,ll,rl):
-        '''merges two sorted lists, ll and rl to give a sorted list'''
+        '''merges two sorted lists, ll and rl to give a sorted list. Auxiliary method used in multiple derived classes'''
         merged_list = []
         counter_l=0
         counter_r=0
-        print('merging {} and {}'.format(ll,rl))
+        #print('merging {} and {}'.format(ll,rl))
         while counter_l!=len(ll) or counter_r!=len(rl):
             if counter_l==len(ll):
                 #since l2 is sorted, just append it on
@@ -58,8 +61,27 @@ class SortingBase:
                     merged_list.append(rl[counter_r])
                     counter_r+=1            
         return merged_list
+     
+    @classmethod
+    def binary_search(self, iterable:'ordered collections.Iterable', element: 'Element of same type of l', position_to_insert = 0) -> 'Position in list or position to insert if nor present in list':
+        '''Searches an iterable for a given element. If found, returns position in iterable. If not found, returns
+        position to insert'''
+        #ToDo: verify that iterable is sorted
+        print('iterable: ',iterable,'position_to_insert',position_to_insert)
+        if len(iterable) == 0:
+            #have checked every possibel position, not located in list
+            #return where should be inserted
+            return -(position_to_insert+1)
+        elif element == iterable[int(len(iterable)/2)]:
+            return position_to_insert
+        elif element > iterable[int(len(iterable)/2)]:
+            return self.binary_search(iterable[int(len(iterable)/2)+1:], element, position_to_insert+int(len(iterable)/2)+1)
+        else: 
+            return self.binary_search(iterable[:int(len(iterable)/2)], element, position_to_insert)
             
-    def sort(self, iterable):
+        
+    #override in subclasses. This gives common docstring if not defined in subclasses
+    def sort(self, iterable: collections.Iterable):
         '''Given a list_to_sort of type element_type, returns the sorted list
         Args:
         iterable: A list of elements of a given type
