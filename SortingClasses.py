@@ -5,6 +5,9 @@
 #stdlib
 import collections
 from bisect import insort_right
+from random import randint
+
+import time
 
 #3rd party
 
@@ -104,7 +107,22 @@ class QuickSort(SortingBase, metaclass = SortingMeta):
         return 'Quick Sort'
         
     def sort(self, iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
-        pass
+        '''Sorts a list in-place. Procedure: 
+            While not sorted: 
+                pick a random element that has not been sorted. 
+        '''
+        return self.sort_recursive(iterable)
+        
+    def sort_recursive(self,iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
+        #print('iterable',iterable)
+        if len(iterable)==0:
+            return []
+        elif len(iterable) == 1:
+            return iterable 
+        else:
+            wall_index = randint(0, len(iterable)-1)
+           # print('wall_index, wall: {}, {}'.format(wall_index, iterable[wall_index]))
+            return self.sort_recursive(list(filter(lambda x: x<iterable[wall_index], iterable))) + list(filter(lambda x: x==iterable[wall_index], iterable)) + self.sort_recursive(list((filter(lambda x: x>iterable[wall_index], iterable))))
     
 class InsertionSort(SortingBase, metaclass = SortingMeta):   
     def __init(self, timed = True):
@@ -115,7 +133,7 @@ class InsertionSort(SortingBase, metaclass = SortingMeta):
         
     def sort(self, iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
         '''Begin with an empty list. Insert element by element to sorted list'''
-        #pop each element off iterable and insert it in the sorted list
+        #future implementation - pop each element off iterable and insert it in the sorted list
         sorted_list = [iterable[0]]
         for element in iterable[1:]:
             position=SortingBase.binary_search(sorted_list,element)
@@ -124,9 +142,6 @@ class InsertionSort(SortingBase, metaclass = SortingMeta):
             else:
                 sorted_list.insert(-(position+1),element)
         return sorted_list
-    
-    
-    
     
     
     
