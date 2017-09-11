@@ -73,7 +73,7 @@ class SortingBase:
             #return where should be inserted
             return -(position_to_insert+1)
         elif element == iterable[int(len(iterable)/2)]:
-            return position_to_insert
+            return position_to_insert + int(len(iterable)/2)
         elif element > iterable[int(len(iterable)/2)]:
             return self.binary_search(iterable[int(len(iterable)/2)+1:], element, position_to_insert+int(len(iterable)/2)+1)
         else: 
@@ -110,11 +110,14 @@ class SortingBase:
         else:
             #print('iterable is not consistent type')
             return TypeError('Iterable is not of a consistent type. Expecting type {}'.format(datatype))
-            
+        
+    def __implements_lt(self, iterable: collections.Iterable):
+        pass
+        
     def _verify_sortable(self,iterable):
         '''Ensures that object is actually sortable. If object is not sortable, returns list of TypeError.
         Unsortable list is detected before sorting has begun'''
         #Raise all exceptions
-        for i in list(filter(lambda x: isinstance(x, Exception),map(lambda f: f(iterable),[self.__is_iterable, self.__iterable_type_uniform]))):
+        for i in list(filter(lambda x: isinstance(x, Exception),map(lambda f: f(iterable),[self.__is_iterable, self.__iterable_type_uniform, self.__implements_lt]))):
             raise i
        
