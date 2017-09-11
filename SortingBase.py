@@ -20,7 +20,7 @@ def timer(function):
         start = time.time()
         result = function(*args, **kwargs)
         finish = time.time()
-        print('Function took {} ms to run'.format((finish-start)*1000))
+        #print('Function took {} ms to run'.format((finish-start)*1000))
         return result, (finish-start)*1000
     return wrapper
 
