@@ -67,7 +67,7 @@ class SortingBase:
         '''Searches an iterable for a given element. If found, returns position in iterable. If not found, returns
         position to insert'''
         #ToDo: verify that iterable is sorted
-        print('iterable: ',iterable,'position_to_insert',position_to_insert)
+        #print('iterable: ',iterable,'position_to_insert',position_to_insert)
         if len(iterable) == 0:
             #have checked every possibel position, not located in list
             #return where should be inserted
