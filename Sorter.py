@@ -26,7 +26,11 @@ class Sorter:
     
     def get_sorting_class(self,sorting_method_name):
         '''returns the sorting class given it's name'''
-        return list(filter(lambda x: x.__name__ == sorting_method_name, self._loaded_sorting_methods))[0]
+        return_class = list(filter(lambda x: x.__name__ == sorting_method_name, self._loaded_sorting_methods))
+        if len(return_class)>0:
+            return(return_class[0])
+        else:
+            raise ImportError('Please import {} first'.format(sorting_method_name))
 
     def load_sorting_method(self, sorting_method_name):
         '''loads class name into current workspace'''
@@ -56,9 +60,10 @@ class Sorter:
         else:
             print('{} was not loaded: cannot remove'.format(sorting_method_name))
             
-    def unload_all_loaded_method(self):
+    def unload_all_loaded_methods(self):
         '''unloads all loaded sorting methods from the workspace'''
-        map(self.unload_sorting_method, list(map(lambda x: x.__name__,self._loaded_sorting_methods)))
+        for sorting_method in self._get_available_sorting_methods():
+            self.unload_sorting_method(sorting_method.__name__)
 
     def sort_python(self,iterable: collections.Iterable, sorting_method):
         if(sorting_method in self._loaded_sorting_methods):
@@ -108,17 +113,17 @@ class Sorter:
         return (test_sizes,sorting_method_runtimes)
         
 
-x = Sorter()
-x.load_sorting_method('QuickSort')
-x.load_sorting_method('MergeSort')
-x.load_all_methods()
-x.unload_sorting_method('QuickSort')
-x.get_loaded_methods()
-x._loaded_sorting_methods
-x.profile_sorting_methods()
-
-#x.load_sorting_method('BubbleSort')
-x.load_sorting_method('InsertionSort')
+#x = Sorter()
+#x.load_sorting_method('QuickSort')
+#x.load_sorting_method('MergeSort')
+#x.load_all_methods()
+#x.unload_sorting_method('QuickSort')
+#x.get_loaded_methods()
+#x._loaded_sorting_methods
+#x.profile_sorting_methods()
+#
+##x.load_sorting_method('BubbleSort')
+#x.load_sorting_method('InsertionSort')
 #print(x._get_available_sorting_methods())
 ##list(x.get_available_sorting_methods().values())[0]().sort(['a','b','c','z','f'])
 #times = x.profile_sorting_methods(all_methods=False)
