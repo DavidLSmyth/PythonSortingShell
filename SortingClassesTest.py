@@ -19,7 +19,7 @@ class SortingTest(unittest.TestCase):
         fully for the sake of clarity'''
         print('testing',sorting_class.__repr__())
         
-        no_elements = 500
+        no_elements = 5000
         
         #sort sparsely spaced random integers
         l = [random.randint(-10000,10000) for i in range(no_elements)]
