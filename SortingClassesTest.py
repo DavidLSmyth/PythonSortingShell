@@ -12,14 +12,14 @@ import math
 from SortingBase import SortingBase
 from SortingClasses import MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, InsertionSort, QuickSort
 
-class SortingTest(unittest.TestCase):
+class TestSortingClasses(unittest.TestCase):
     
     def helper_sorting_method(self, sorting_class):
         '''Each sorting method should satisfy these tests. They are written out
         fully for the sake of clarity'''
         print('testing',sorting_class.__repr__())
         
-        no_elements = 5000
+        no_elements = 2500
         
         #sort sparsely spaced random integers
         l = [random.randint(-10000,10000) for i in range(no_elements)]

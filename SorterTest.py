@@ -16,13 +16,20 @@ class TestSorter(unittest.TestCase):
     def test_get_loaded_methods(self):
         self.assertEqual(self.sorter.get_loaded_methods(),[])
         self.sorter.load_all_methods()
-        self.assertEqual(self.sorter.get_loaded_methods(), self.sorter._get_available_sorting_methods())
+        self.assertEqual(self.sorter.get_loaded_methods(), [sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()])
     
     def test_get_sorting_class(self):
         '''returns the sorting class given it's name'''
+        #couldnt figure out error - manually import MergeSort to be sure
+        from SortingClasses import MergeSort
         self.sorter.load_sorting_method('MergeSort')
         #strange behaviour observed here
         self.assertEqual(MergeSort.__name__, self.sorter.get_sorting_class('MergeSort').__name__)
+        del MergeSort
+        
+    def test_get_available_sorting_methods(self):
+        self.sorter.load_all_methods()
+        self.assertEqual([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()], self.sorter.get_loaded_methods())
     
     def test_load_sorting_method(self):
         '''loads class name into current workspace'''

@@ -45,6 +45,8 @@ class BubbleSortRecursive(SortingBase,metaclass=SortingMeta):
 
     def sort(self,iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
         self._verify_sortable(iterable)
+        import sys
+        sys.setrecursionlimit(100000)
         #move recursive work to separate function to preserve timing
         return(self.sort_recursive(iterable))
         

@@ -1,13 +1,9 @@
 #stdlib imports
-import sys
-import ast
-import inspect
 import collections
 import random
 from statistics import mean
 
 #3rd party
-import numpy as np
 import matplotlib.pyplot as plt
 
 #user defined modules
@@ -95,9 +91,9 @@ class Sorter:
     def profile_sorting_methods(self, all_methods = False):
         '''Runs specified sorting methods on different sized inputs and offers a summary 
         of the runtimes of each.'''
-        print('This may take a while...')
+        print('Profiling loaded sorting methods. This may take a while...')
         #maybe use yield here because it takes a while!
-        test_sizes = [int((100*i)) for i in range(20,40,4)]
+        test_sizes = [int((100*i)) for i in range(20,80,4)]
         sorting_method_runtimes = {}
         if all_methods:
             #make a copy of currently loaded methods
@@ -107,20 +103,33 @@ class Sorter:
         for sorting_class in self._loaded_sorting_methods:
             print('profiling: {}'.format(sorting_class.__name__))
             sorting_method_runtimes[sorting_class.__name__] = list(map(lambda x: self._get_average_runtime(sorting_class(True), input_size = x), test_sizes))
-        
-        for method_to_unload in list(filter(lambda x: x not in currently_loaded_methods, self._loaded_sorting_methods)):
-            self.unload_sorting_method(method_to_unload.__name__)
+        if all_methods:
+            for method_to_unload in list(filter(lambda x: x not in currently_loaded_methods, self._loaded_sorting_methods)):
+                self.unload_sorting_method(method_to_unload.__name__)
         return (test_sizes,sorting_method_runtimes)
+    
+    def plot_timings(self, all_methods = False):
+        test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods)    
+        plt.clf()
+        for y, label_name in zip(list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
+            plt.plot(test_sizes, y,'p-',label = label_name)
+        plt.legend(loc = 'upper left')
+        plt.ylabel('Time in milliseconds to run')
+        plt.xlabel('Size of input')
         
 
 #x = Sorter()
 #x.load_sorting_method('QuickSort')
 #x.load_sorting_method('MergeSort')
 #x.load_all_methods()
+#x.unload_sorting_method('BubbleSortRecursive')
+#x.unload_sorting_method('MergeSortRecursive')
+#x._get_available_sorting_methods()
+#x.get_loaded_methods()
 #x.unload_sorting_method('QuickSort')
 #x.get_loaded_methods()
 #x._loaded_sorting_methods
-#x.profile_sorting_methods()
+#x.plot_timings()
 #
 ##x.load_sorting_method('BubbleSort')
 #x.load_sorting_method('InsertionSort')
