@@ -6,6 +6,7 @@ Created on Fri Sep  8 10:55:25 2017
 """
 import collections
 import time
+
 def timer(function):
     def wrapper(*args, **kwargs):
         '''Given a list_to_sort of type element_type, returns the sorted list

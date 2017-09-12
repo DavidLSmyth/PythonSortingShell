@@ -4,10 +4,8 @@
 
 #stdlib
 import collections
-from bisect import insort_right
 from random import randint
 
-import time
 
 #3rd party
 
