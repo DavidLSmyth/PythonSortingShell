@@ -15,8 +15,17 @@ def c_echo(integer):
 
 print(c_echo(10))
 print(c_echo(15))
-print(c_echo('hi'))
+#print(c_echo('hi'))
 
+insertionSort = test_lib.insertionSort
+my_array_type = ctypes.c_int * 5
+my_array = my_array_type()
+my_array[0:] = [1,8,6,4,5]
+#my_array_type = ctypes.c_int * len(array)
+insertionSort.restype = None
+insertionSort.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
+insertionSort(my_array, len(my_array))
+print([i for i in my_array])
 #ctrl + shift + / to multiline comment
 # 16.16.1.6. Calling functions with your own custom data types
 
