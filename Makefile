@@ -1,4 +1,5 @@
-TestCCode.dll: TestCCode.o
-	gcc -m64 -shared -o TestCCode.dll TestCCode.o
-TestCCode.o: TestCCode.c
-	gcc -m64 -c -Wall -Werror -fpic TestCCode.c
+hello.so: hello.o
+	gcc -shared -o libhello.so hello.o
+
+hello.o: hello.c
+gcc -c -Wall -Werror -fpic hello.c
