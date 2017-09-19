@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import ctypes
-
+import os
+os.chdir('./Dropbox')
 test_lib = ctypes.CDLL("./libhello.so")
 #sets the return type
 test_lib.restype = ctypes.c_int32

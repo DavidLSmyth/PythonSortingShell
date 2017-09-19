@@ -4,6 +4,7 @@
 
 #stdlib
 import collections
+import ctypes
 from random import randint
 
 
@@ -143,8 +144,37 @@ class InsertionSort(SortingBase, metaclass = SortingMeta):
                 sorted_list.insert(-(position+1),element)
         return sorted_list
     
+class CInsertionSort(SortingBase, metaclass = SortingMeta):
+    '''A c implementation of insertion sort. The sorting method is simply a 
+    wrapper for a c function that sorts a list in-place'''
+    def __init(self, timed = True):
+        super().__init__(timed)
+        
+    def __repr__(self):
+        return 'CInsertion Sort'
     
-    
+    def sort(self, iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
+        '''Begin with an empty list. Insert element by element to sorted list'''
+        test_lib = ctypes.CDLL("./libhello.so")
+        c_insertion_sort = test_lib.insertionSort
+        #rename!
+        test_lib = ctypes.CDLL("./libhello.so")
+        #sets the return type
+        test_lib.restype = ctypes.c_int32
+        #sets the arg types
+        test_lib.argtypes = [ctypes.c_int32,]
+           
+        #declare a c-style array
+        my_array_type = ctypes.c_int * len(iterable)
+        sorted_list = my_array_type()
+        sorted_list[0:] = iterable
+        #set the return type and the arg types        
+        c_insertion_sort.restype = None
+        c_insertion_sort.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
+        
+        c_insertion_sort(sorted_list, len(sorted_list))
+        return list(sorted_list)
+
     
     
     
