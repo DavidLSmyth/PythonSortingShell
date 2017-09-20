@@ -17,6 +17,7 @@ from SortingBase import SortingBase
 from SortingClasses import MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, InsertionSort, QuickSort, CInsertionSort
 
 class TestSortingClasses(unittest.TestCase):
+    
     def c_helper_sorting_method(self, sorting_class):
         '''C wrapper sorting methods should satisfy these tests. They are written out
         fully for the sake of clarity'''
