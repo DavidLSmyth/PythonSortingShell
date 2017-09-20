@@ -6,6 +6,7 @@ Created on Fri Sep  8 10:55:25 2017
 """
 import collections
 import time
+import ctypes
 
 def timer(function):
     def wrapper(*args, **kwargs):
@@ -79,6 +80,24 @@ class SortingBase:
             return self.binary_search(iterable[int(len(iterable)/2)+1:], element, position_to_insert+int(len(iterable)/2)+1)
         else: 
             return self.binary_search(iterable[:int(len(iterable)/2)], element, position_to_insert)
+        
+    def load_c_function(self, function_name: str):
+        sorting_lib = ctypes.CDLL("./c_code/libsorting_functions.so")
+        sorting_algo = eval('sorting_lib.{}'.format(function_name))
+        #sets the return type
+        #sorting_lib.restype = ctypes.c_int32
+        #sets the arg types
+        #sorting_lib.argtypes = [ctypes.c_int32,]
+        #set the return type and the arg types        
+        sorting_algo.restype = None
+        sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
+        return sorting_algo
+    
+    def prepare_c_int_array(self, iterable: collections.Iterable)->collections.Iterable:
+        my_array_type = ctypes.c_int * len(iterable)
+        new_iterable = my_array_type()
+        new_iterable[0:] = iterable
+        return new_iterable
             
         
     #override in subclasses. This gives common docstring if not defined in subclasses

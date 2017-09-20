@@ -4,7 +4,7 @@
 #include "sorting_functions.h"
  
 /* Function to sort an array using insertion sort*/
-void insertionSort(int arr[], int n)
+void c_insertion_sort(int arr[], int n)
 {
    int i, key, j;
    for (i = 1; i < n; i++)
@@ -24,12 +24,12 @@ void insertionSort(int arr[], int n)
    }
 }
 
-void bubbleSort(int arr[], int no_elements){
-  int counter1, counter2;
-  for(counter1; counter1<no_elements;counter1++){
-    for(counter2;counter2<counter1-1;counter2++){
-      if(arr[counter2]<arr[counter2+1]){
-        swap(& array[counter2], & array[counter2+1])
+void c_bubble_sort(int arr[], int no_elements){
+  printf("no_elements: %d\n", no_elements);
+  for(int counter1=0; counter1 < no_elements; counter1++){
+    for(int counter2 =0 ; counter2< no_elements-(counter1)-1; counter2++){
+      if(arr[counter2]>arr[counter2+1]){
+        swap(& arr[counter2], & arr[counter2+1]);
       }
     }
   }
@@ -38,10 +38,10 @@ void bubbleSort(int arr[], int no_elements){
 //a utility function that swaps the position of i & j in an array
 //takes in a pointer to i, a pointer to j and swaps the values based on the following logic: 
 void swap(int *i, int *j){
-  printf("i:%d j:%d \n", *i, *j);
+  //printf("swapping i:%d j:%d \n", *i, *j);
   //temp takes on the value of i
   int temp = *i;
-  printf("temp: %d\n", temp);
+  //printf("temp: %d\n", temp);
   //i points at j
   *i=*j;
   //j takes on the value of temp

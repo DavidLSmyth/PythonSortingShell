@@ -1,5 +1,5 @@
-hello.so: hello.o
-	gcc -shared -o libhello.so hello.o
+libsorting_functions.so: sorting_functions.o
+	gcc -shared -o libsorting_functions.so sorting_functions.o
 
-hello.o: hello.c
-	gcc -c -Wall -Werror -fpic hello.c
+sorting_functions.o: sorting_functions.c
+	gcc -c -Wall -Werror -fpic sorting_functions.c
