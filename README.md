@@ -6,3 +6,6 @@ A project which implements various sorting algorithms which can then be benchmar
 * Practice using python to wrap C functions to give speed boost
 * Practice using CI tools such as travis
 * Practice writing sorting algorithms efficiently
+
+
+![alt text](https://github.com/DavidLSmyth/PythonSortingShell/blob/master/demo.png)
