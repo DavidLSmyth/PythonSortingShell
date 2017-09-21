@@ -4,18 +4,43 @@ Created on Fri Sep  8 20:02:05 2017
 
 @author: 13383861
 """
-
+#stdlib imports
 import unittest
 import random
 import math
+import ctypes
 
+#3rd party imports
+
+#User defined imports
 from SortingBase import SortingBase
-from SortingClasses import MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, InsertionSort, QuickSort
+from SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
+InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
 class TestSortingClasses(unittest.TestCase):
     
+    def c_helper_sorting_method(self, sorting_class):
+        '''C wrapper sorting methods should satisfy these tests. They are written out
+        fully for the sake of clarity'''
+        print('testing',sorting_class.__repr__())
+        
+        no_elements = 2500
+        
+        #sort sparsely spaced random integers
+        l = [random.randint(-10000,10000) for i in range(no_elements)]
+        l_copy = l.copy()
+        #must do this since c sorting is in-place
+        l_copy=sorting_class.sort(l_copy)
+        self.assertEqual(sorted(l), l_copy)
+        
+        #sort densely spaced random integers
+        l = [random.randint(-100,100) for i in range(no_elements)]
+        l_copy = l.copy()
+        l_copy=sorting_class.sort(l_copy)
+        self.assertEqual(sorted(l), l_copy)
+    
     def helper_sorting_method(self, sorting_class):
-        '''Each sorting method should satisfy these tests. They are written out
+        '''Pure Python sorting method should satisfy these tests. They are written out
         fully for the sake of clarity'''
         print('testing',sorting_class.__repr__())
         
@@ -52,11 +77,13 @@ class TestSortingClasses(unittest.TestCase):
             print(type_error_exception.msg)
     
     def test_mergesort(self):
+        '''Ensures that mergesort can sort an iterable successfully'''
         x = MergeSort(False)
         self.helper_sorting_method(x)
         
       
     def test_bubblesort(self):
+        '''Ensures that bubblesort can sort an iterable successfully'''
         x = BubbleSort(False)
         self.helper_sorting_method(x)
         
@@ -80,6 +107,18 @@ class TestSortingClasses(unittest.TestCase):
         ll = sorted([random.randint(-1000,1000) for i in range(50)])
         rl = sorted([random.randint(-1000,1000) for i in range(50)])
         self.assertEqual(sorted(ll+rl), SortingBase.merge(ll,rl))
+        
+    def test_cinsertionsort(self):
+        x = CInsertionSort(False)
+        self.c_helper_sorting_method(x)
+        
+    def test_cbubblesort(self):
+        x = CBubbleSort(False)
+        self.c_helper_sorting_method(x)
+    
+    def test_cmergesort(self):
+        x = CMergeSort(False)
+        self.c_helper_sorting_method(x)
         
 
         
