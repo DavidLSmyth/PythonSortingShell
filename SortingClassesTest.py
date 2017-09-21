@@ -14,7 +14,8 @@ import ctypes
 
 #User defined imports
 from SortingBase import SortingBase
-from SortingClasses import MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, InsertionSort, QuickSort, CInsertionSort
+from SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
+InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
 class TestSortingClasses(unittest.TestCase):
     
@@ -27,11 +28,16 @@ class TestSortingClasses(unittest.TestCase):
         
         #sort sparsely spaced random integers
         l = [random.randint(-10000,10000) for i in range(no_elements)]
-        self.assertEqual(sorted(l), sorting_class.sort(l))
+        l_copy = l.copy()
+        #must do this since c sorting is in-place
+        l_copy=sorting_class.sort(l_copy)
+        self.assertEqual(sorted(l), l_copy)
         
         #sort densely spaced random integers
         l = [random.randint(-100,100) for i in range(no_elements)]
-        self.assertEqual(sorted(l), sorting_class.sort(l))
+        l_copy = l.copy()
+        l_copy=sorting_class.sort(l_copy)
+        self.assertEqual(sorted(l), l_copy)
     
     def helper_sorting_method(self, sorting_class):
         '''Pure Python sorting method should satisfy these tests. They are written out
@@ -93,10 +99,6 @@ class TestSortingClasses(unittest.TestCase):
         x = InsertionSort(False)
         self.helper_sorting_method(x)
         
-    def test_cinsertionsort(self):
-        x = CInsertionSort(False)
-        self.c_helper_sorting_method(x)
-        
     def test_quicksort(self):
         x = QuickSort(False)
         self.helper_sorting_method(x)
@@ -105,6 +107,18 @@ class TestSortingClasses(unittest.TestCase):
         ll = sorted([random.randint(-1000,1000) for i in range(50)])
         rl = sorted([random.randint(-1000,1000) for i in range(50)])
         self.assertEqual(sorted(ll+rl), SortingBase.merge(ll,rl))
+        
+    def test_cinsertionsort(self):
+        x = CInsertionSort(False)
+        self.c_helper_sorting_method(x)
+        
+    def test_cbubblesort(self):
+        x = CBubbleSort(False)
+        self.c_helper_sorting_method(x)
+    
+    def test_cmergesort(self):
+        x = CMergeSort(False)
+        self.c_helper_sorting_method(x)
         
 
         

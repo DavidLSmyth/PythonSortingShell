@@ -121,18 +121,18 @@ class Sorter:
         plt.xlabel('Size of input')
         
 
-x = Sorter()
-x.load_sorting_method('QuickSort')
-x.load_sorting_method('MergeSort')
-x.load_all_methods()
-x.unload_sorting_method('BubbleSortRecursive')
-x.unload_sorting_method('MergeSortRecursive')
-x._get_available_sorting_methods()
-x.get_loaded_methods()
-x.unload_sorting_method('QuickSort')
-x.get_loaded_methods()
-x._loaded_sorting_methods
-x.plot_timings()
+#x = Sorter()
+#x.load_sorting_method('QuickSort')
+#x.load_sorting_method('MergeSort')
+#x.load_all_methods()
+#x.unload_sorting_method('BubbleSortRecursive')
+#x.unload_sorting_method('MergeSortRecursive')
+#x._get_available_sorting_methods()
+#x.get_loaded_methods()
+#x.unload_sorting_method('QuickSort')
+#x.get_loaded_methods()
+#x._loaded_sorting_methods
+#x.plot_timings()
 
 
 
