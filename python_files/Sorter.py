@@ -111,7 +111,7 @@ class Sorter:
                 self.unload_sorting_method(method_to_unload.__name__)
         return (test_sizes,sorting_method_runtimes)
     
-    def plot_timings(self, all_methods = False):
+    def plot_timings(self, all_methods = False, save = False):
         test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods)    
         plt.clf()
         for y, label_name in zip(list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
@@ -119,6 +119,10 @@ class Sorter:
         plt.legend(loc = 'upper left')
         plt.ylabel('Time in milliseconds to run')
         plt.xlabel('Size of input')
+        if save:
+            import os
+            os.chdir('.')
+            plt.savefig('../demo.png')
         
 
 #x = Sorter()
