@@ -123,7 +123,7 @@ void merge(int array [], int ll_start, int midpoint, int rl_finish){
       counter2++;
       return_array_counter++;
     }
-    printArray(array,(10));
+    //printArray(array,(10));
   }
   if(counter2 == (rl_finish-midpoint)){
     //printf("Concatenating end of array1\n");
