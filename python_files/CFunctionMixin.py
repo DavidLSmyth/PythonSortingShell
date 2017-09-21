@@ -12,12 +12,12 @@ import ctypes
 class CFunctionMixin():
     def load_c_function(self, function_name: str):
         try:
-            sorting_lib = ctypes.CDLL("./c_code/libsorting_functions.so")
+            sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
             sorting_algo = eval('sorting_lib.{}'.format(function_name))      
             sorting_algo.restype = None
             sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
-        except FileNotFoundError as e:
-            print(f'could not load {function_name}')
+        except OSError as e:
+            print(f'could not load {function_name} in directory c_code/libsorting_functions.so')
             raise e
         return sorting_algo
     
