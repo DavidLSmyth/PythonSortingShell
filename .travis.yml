@@ -9,4 +9,4 @@ script:
 - cd c_code
 - make 
 - cd ../python_files
-- python python_files/SortingTestSuite.py
+- python SortingTestSuite.py
