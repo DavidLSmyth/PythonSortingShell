@@ -8,16 +8,18 @@ Created on Thu Sep 21 17:32:11 2017
 
 import collections
 import ctypes
+import os
 
 class CFunctionMixin():
     def load_c_function(self, function_name: str):
         try:
+            os.chdir(os.curdir)
             sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
             sorting_algo = eval('sorting_lib.{}'.format(function_name))      
             sorting_algo.restype = None
             sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
         except OSError as e:
-            print(f'could not load {function_name} in directory c_code/libsorting_functions.so')
+            print(f'could not load {function_name} from file c_code/libsorting_functions.so')
             raise e
         return sorting_algo
     

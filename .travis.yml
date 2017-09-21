@@ -8,5 +8,5 @@ install:
 script: 
 - cd c_code
 - make 
-- cd ..
+- cd ../python_files
 - python python_files/SortingTestSuite.py
