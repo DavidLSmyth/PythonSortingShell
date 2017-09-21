@@ -6,6 +6,7 @@ Created on Fri Sep  8 10:55:25 2017
 """
 import collections
 import time
+import ctypes
 
 def timer(function):
     def wrapper(*args, **kwargs):
@@ -79,6 +80,7 @@ class SortingBase:
             return self.binary_search(iterable[int(len(iterable)/2)+1:], element, position_to_insert+int(len(iterable)/2)+1)
         else: 
             return self.binary_search(iterable[:int(len(iterable)/2)], element, position_to_insert)
+        
             
         
     #override in subclasses. This gives common docstring if not defined in subclasses
@@ -122,3 +124,4 @@ class SortingBase:
         for i in list(filter(lambda x: isinstance(x, Exception),map(lambda f: f(iterable),[self.__is_iterable, self.__iterable_type_uniform, self.__implements_lt]))):
             raise i
        
+        

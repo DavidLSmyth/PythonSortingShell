@@ -67,14 +67,17 @@ class Sorter:
         else:
             return sorting_method.sort(iterable)
 
-    def sort_cpp(self,list_to_sort, method, element_type = None):
-        pass
+    def sort_c(self,iterable: collections.Iterable, sorting_method, element_type = None):
+        if(sorting_method in self._loaded_sorting_methods):
+            raise Exception('Method not yet loaded')
+        else:
+            return sorting_method.sort(iterable)
     
     def _get_available_sorting_methods(self) -> 'dict {sorting_method_repr: class}':
         return[sorting_class for sorting_class in SortingBase.SortingBase.__subclasses__()]
 
     def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50):
-        '''For a given number of elements, gets the average runtime for 10 runs with that input size'''
+        '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
         if iterable_type not in [int, float, str]:
             print('Might not be able to generate random types in iterable for {}'.format(sorting_method))
         if iterable_type == int:
@@ -86,7 +89,7 @@ class Sorter:
         elif iterable_type == str:
             generator = lambda x: chr(random.randint())
             intrange = [97,122]
-        return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(5)])
+        return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(1)])
     
     def profile_sorting_methods(self, all_methods = False):
         '''Runs specified sorting methods on different sized inputs and offers a summary 
@@ -130,7 +133,11 @@ class Sorter:
 #x.get_loaded_methods()
 #x._loaded_sorting_methods
 #x.plot_timings()
-#
+
+
+
+
+
 ##x.load_sorting_method('BubbleSort')
 #x.load_sorting_method('InsertionSort')
 #print(x._get_available_sorting_methods())
