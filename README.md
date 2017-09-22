@@ -9,3 +9,4 @@ A project which implements various sorting algorithms which can then be benchmar
 
 
 ![alt text](https://github.com/DavidLSmyth/PythonSortingShell/blob/master/demo.png)
+![alt text](https://github.com/DavidLSmyth/PythonSortingShell/blob/master/demo1.png)
