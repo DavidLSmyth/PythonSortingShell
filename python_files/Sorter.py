@@ -5,6 +5,9 @@ from statistics import mean
 
 #3rd party
 import matplotlib.pyplot as plt
+from matplotlib import animation
+from mpl_toolkits.mplot3d import Axes3D
+
 
 #user defined modules
 import SortingBase
@@ -45,6 +48,11 @@ class Sorter:
     def load_all_methods(self):
         for sorting_method in self._get_available_sorting_methods():
             self.load_sorting_method(sorting_method.__name__)
+            
+    def load_c_methods(self):
+        for sorting_method in self._get_available_sorting_methods():
+            if(sorting_method.__name__[0] == 'C'):
+                self.load_sorting_method(sorting_method.__name__)
         
     def unload_sorting_method(self, sorting_method_name):
         '''unloads a single method from the workspace'''
@@ -76,7 +84,7 @@ class Sorter:
     def _get_available_sorting_methods(self) -> 'dict {sorting_method_repr: class}':
         return[sorting_class for sorting_class in SortingBase.SortingBase.__subclasses__()]
 
-    def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50):
+    def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50, no_runs = 1):
         '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
         if iterable_type not in [int, float, str]:
             print('Might not be able to generate random types in iterable for {}'.format(sorting_method))
@@ -89,12 +97,12 @@ class Sorter:
         elif iterable_type == str:
             generator = lambda x: chr(random.randint())
             intrange = [97,122]
-        return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(1)])
+        return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(no_runs)])
     
     def profile_sorting_methods(self, all_methods = False):
         '''Runs specified sorting methods on different sized inputs and offers a summary 
         of the runtimes of each.'''
-        print('Profiling loaded sorting methods. This may take a while...')
+        print('\nProfiling loaded sorting methods. This may take a while...\n')
         #maybe use yield here because it takes a while!
         test_sizes = [int((100*i)) for i in range(20,80,4)]
         sorting_method_runtimes = {}
@@ -111,18 +119,34 @@ class Sorter:
                 self.unload_sorting_method(method_to_unload.__name__)
         return (test_sizes,sorting_method_runtimes)
     
-    def plot_timings(self, all_methods = False, save = False):
+    def plot_timings(self, all_methods = False, save_file_name = False, ThreeD = False):
         test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods)    
         plt.clf()
-        for y, label_name in zip(list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
-            plt.plot(test_sizes, y,'p-',label = label_name)
+        if not ThreeD:
+            for runtime, label_name in zip(list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
+                plt.plot(test_sizes, runtime,'p-',label = label_name)
+            plt.ylabel('Time in milliseconds to run')
+            plt.xlabel('Size of input')
+
+        else:
+            self.fig = plt.figure()
+            self.ax = self.fig.add_subplot(111, projection='3d')
+            #(runtime, label_name) 
+            for index, runtime, label_name in zip([i for i in range(len(sorting_method_runtimes.values()))],list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
+                self.ax.plot(test_sizes,[index for i in range(len(runtime))],runtime,'p-', label = label_name)
+            self.ax.set_xlabel('Size of input')
+            self.ax.set_ylabel('Sorting Algo')
+            self.ax.set_zlabel('Time in milliseconds to run')
+            #[index for i in range(len(runtime))], 
+            self.ax.set_yticklabels(list(sorting_method_runtimes.keys()))
+                
         plt.legend(loc = 'upper left')
-        plt.ylabel('Time in milliseconds to run')
-        plt.xlabel('Size of input')
-        if save:
+
+        if save_file_name:
             import os
             os.chdir('.')
-            plt.savefig('../demo.png')
+            plt.savefig(f'../{save_file_name}.png')
+            
         
 
 #x = Sorter()
