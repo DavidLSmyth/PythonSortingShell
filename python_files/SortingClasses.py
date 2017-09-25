@@ -6,7 +6,6 @@
 import collections
 from random import randint
 
-
 #3rd party
 
 #user defined

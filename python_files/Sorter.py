@@ -147,6 +147,8 @@ class Sorter:
             os.chdir('.')
             plt.savefig(f'../{save_file_name}.png')
             
+
+            
         
 
 #x = Sorter()

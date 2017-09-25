@@ -36,3 +36,7 @@ class CFunctionMixin():
         c_iterable = self.prepare_c_int_array(iterable)
         sorting_method(c_iterable, len(c_iterable))
         return list(c_iterable)
+    
+    #ToDo
+    def get_source(self):
+        raise NotImplementedError('Havent found a way to retrieve c code') 
