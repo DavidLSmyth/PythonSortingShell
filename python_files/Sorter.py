@@ -10,7 +10,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 #user defined modules
-import SortingBase
+import python_files.SortingBase
 
 
 class Sorter:

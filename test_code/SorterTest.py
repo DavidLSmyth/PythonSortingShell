@@ -6,7 +6,9 @@ Created on Tue Sep 12 14:09:58 2017
 """
 
 import unittest
-from Sorter import Sorter
+import sys
+
+from python_files.Sorter import Sorter
 
 class TestSorter(unittest.TestCase):
     
