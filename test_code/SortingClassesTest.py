@@ -8,13 +8,13 @@ Created on Fri Sep  8 20:02:05 2017
 import unittest
 import random
 import math
-import ctypes
+#import ctypes
 
 #3rd party imports
 
 #User defined imports
-from SortingBase import SortingBase
-from SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
+from python_files.SortingBase import SortingBase
+from python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
 InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
 class TestSortingClasses(unittest.TestCase):

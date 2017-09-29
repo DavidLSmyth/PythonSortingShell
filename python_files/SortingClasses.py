@@ -9,9 +9,9 @@ from random import randint
 #3rd party
 
 #user defined
-from SortingMeta import SortingMeta
-from SortingBase import SortingBase
-from CFunctionMixin import CFunctionMixin 
+from python_files.SortingMeta import SortingMeta
+from python_files.SortingBase import SortingBase
+from python_files.CFunctionMixin import CFunctionMixin 
 
 
 

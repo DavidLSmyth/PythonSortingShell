@@ -37,7 +37,7 @@ class Sorter:
         if sorting_method_name not in list(map(lambda x: x.__name__,self._loaded_sorting_methods)):
             try:
                 exec('global {}'.format(sorting_method_name))
-                exec('from SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
+                exec('from python_files.SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
                 print('Loaded {} into current workspace'.format(sorting_method_name))
                 self._loaded_sorting_methods.append(eval(sorting_method_name))
             except ImportError as e:
@@ -82,7 +82,7 @@ class Sorter:
             return sorting_method.sort(iterable)
     
     def _get_available_sorting_methods(self) -> 'dict {sorting_method_repr: class}':
-        return[sorting_class for sorting_class in SortingBase.SortingBase.__subclasses__()]
+        return[sorting_class for sorting_class in python_files.SortingBase.SortingBase.__subclasses__()]
 
     def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50, no_runs = 1):
         '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
