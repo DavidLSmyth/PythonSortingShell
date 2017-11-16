@@ -2,6 +2,7 @@
 import collections
 import random
 from statistics import mean
+import importlib
 
 #3rd party
 import matplotlib.pyplot as plt
@@ -10,7 +11,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 #user defined modules
-import SortingBase
+import python_files.SortingBase
 
 
 class Sorter:
@@ -23,10 +24,10 @@ class Sorter:
         '''Returns the names of the sorting methods that have been loaded into the workspace'''
         return(list(map(lambda x: x.__name__, self._loaded_sorting_methods)))
     
-    def get_sorting_class(self,sorting_method_name):
+    def get_sorting_class(self, sorting_method_name):
         '''returns the sorting class given it's name'''
         return_class = list(filter(lambda x: x.__name__ == sorting_method_name, self._loaded_sorting_methods))
-        if len(return_class)>0:
+        if len(return_class) > 0:
             return(return_class[0])
         else:
             raise ImportError('Please import {} first'.format(sorting_method_name))
@@ -36,10 +37,12 @@ class Sorter:
         #check whether name has already been loaded
         if sorting_method_name not in list(map(lambda x: x.__name__,self._loaded_sorting_methods)):
             try:
-                exec('global {}'.format(sorting_method_name))
-                exec('from SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
-                print('Loaded {} into current workspace'.format(sorting_method_name))
-                self._loaded_sorting_methods.append(eval(sorting_method_name))
+                # exec('global {}'.format(sorting_method_name))
+                # exec('from python_files.SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
+                # print('Loaded {} into current workspace'.format(sorting_method_name))
+                # self._loaded_sorting_methods.append(eval(sorting_method_name))
+                module_to_load = importlib.import_module('python_files.SortingClasses')
+                self._loaded_sorting_methods.append(getattr(module_to_load, sorting_method_name))
             except ImportError as e:
                 print('Could not load {} into the workspace'.format(sorting_method_name))
         else:
@@ -81,8 +84,8 @@ class Sorter:
         else:
             return sorting_method.sort(iterable)
     
-    def _get_available_sorting_methods(self) -> 'dict {sorting_method_repr: class}':
-        return[sorting_class for sorting_class in SortingBase.SortingBase.__subclasses__()]
+    def _get_available_sorting_methods(self) -> list:
+        return[sorting_class for sorting_class in python_files.SortingBase.SortingBase.__subclasses__()]
 
     def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50, no_runs = 1):
         '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
@@ -90,10 +93,10 @@ class Sorter:
             print('Might not be able to generate random types in iterable for {}'.format(sorting_method))
         if iterable_type == int:
             generator = random.randint
-            intrange = [-100_000_000,100_000_000]
+            intrange = [-100000000,100000000]
         elif iterable_type == float:
-            generator = lambda start,end: int(random.randint(start,end)*100_000_000)
-            intrange = [-100_000_000,100_000_000]
+            generator = lambda start,end: int(random.randint(start,end)*100000000)
+            intrange = [-100000000,100000000]
         elif iterable_type == str:
             generator = lambda x: chr(random.randint())
             intrange = [97,122]
@@ -145,7 +148,9 @@ class Sorter:
         if save_file_name:
             import os
             os.chdir('.')
-            plt.savefig(f'../{save_file_name}.png')
+            plt.savefig('../{}.png'.format(save_file_name))
+            
+
             
         
 

@@ -23,21 +23,21 @@ def main():
 if __name__ == '__main__':
     main()
     
-with open('/home/david/Dropbox/SoftwareDevelopment/PythonSortingShell/PythonSortingShell/requirements.txt') as f1, open('/home/david/Dropbox/SoftwareDevelopment/PythonSortingShell/PythonSortingShell/README.md') as f2:
-    for line1, line2 in zip(f1.readlines(), f2.readlines()):
-        print(line1, line2)
-        
-import pandas as pd
-import numpy as np
-df = pd.DataFrame({'A':[i for i in range(100)]+[np.NaN]})
-True in df.isnull()
-df.isnull().any()
-
-
-import math
-
-def binom(a,b):
-    return(math.factorial(a)/(math.factorial(b)*math.factorial(a-b)))
-
-
-print(sum([binom(400,i)*(0.1**(i))*(0.9**(400-i)) for i in range(50,400)]))
+#with open('/home/david/Dropbox/SoftwareDevelopment/PythonSortingShell/PythonSortingShell/requirements.txt') as f1, open('/home/david/Dropbox/SoftwareDevelopment/PythonSortingShell/PythonSortingShell/README.md') as f2:
+#    for line1, line2 in zip(f1.readlines(), f2.readlines()):
+#        print(line1, line2)
+#        
+#import pandas as pd
+#import numpy as np
+#df = pd.DataFrame({'A':[i for i in range(100)]+[np.NaN]})
+#True in df.isnull()
+#df.isnull().any()
+#
+#
+#import math
+#
+#def binom(a,b):
+#    return(math.factorial(a)/(math.factorial(b)*math.factorial(a-b)))
+#
+#
+#print(sum([binom(400,i)*(0.1**(i))*(0.9**(400-i)) for i in range(50,400)]))

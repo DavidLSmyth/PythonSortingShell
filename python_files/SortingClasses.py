@@ -6,13 +6,12 @@
 import collections
 from random import randint
 
-
 #3rd party
 
 #user defined
-from SortingMeta import SortingMeta
-from SortingBase import SortingBase
-from CFunctionMixin import CFunctionMixin 
+from python_files.SortingMeta import SortingMeta
+from python_files.SortingBase import SortingBase
+from python_files.CFunctionMixin import CFunctionMixin 
 
 
 
@@ -84,7 +83,7 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
         return sublists[0]
 
 class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
-    def __init__(self, timed = True):
+    def __init__(self, timed=True):
         super().__init__(timed)
         
     def __repr__(self):
@@ -94,7 +93,7 @@ class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
         #verify iterable can be sorted
         self._verify_sortable(iterable)
         
-        if len(iterable)==1:
+        if len(iterable) == 1:
             return iterable
         else:
             return(SortingBase.merge(self.sort(iterable[:int(len(iterable)/2)]), self.sort(iterable[int(len(iterable)/2):])))

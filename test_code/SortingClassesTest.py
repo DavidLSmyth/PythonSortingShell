@@ -8,13 +8,13 @@ Created on Fri Sep  8 20:02:05 2017
 import unittest
 import random
 import math
-import ctypes
+#import ctypes
 
 #3rd party imports
 
 #User defined imports
-from SortingBase import SortingBase
-from SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
+from python_files.SortingBase import SortingBase
+from python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
 InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
 class TestSortingClasses(unittest.TestCase):
@@ -75,12 +75,29 @@ class TestSortingClasses(unittest.TestCase):
         with self.assertRaises(TypeError) as type_error_exception:
             sorting_class.sort(l)
             print(type_error_exception.msg)
+            
+    def get_source_test_helper(self, sorting_method):
+        if isinstance(sorting_method, MergeSort):
+            self.assertEqual(sorting_method.get_code().replace(' ','').replace('\n',''),'''def sort(self,iterable: collections.Iterable) -> 'tuple(iterable, int) if timed else iterable':
+                #verify iterable can be sorted
+                self._verify_sortable(iterable)
+                #lists of length 1 are trivially sorted
+                sublists = [iterable[i:i+1] for i in range(0, len(iterable),1)]
+                #iterate through each pair of sublists and merge
+                while len(sublists)>1:
+                    #merging only works if lists have even number of elements
+                    if len(sublists)%2:
+                        sublists.append([])
+                    sublists = list(map(lambda x,y: SortingBase.merge(x,y), sublists[::2], sublists[1::2]))
+                return sublists[0]'''.replace(' ','').replace('\n',''))
+        else:
+            self.assertEqual('','')
     
     def test_mergesort(self):
         '''Ensures that mergesort can sort an iterable successfully'''
         x = MergeSort(False)
         self.helper_sorting_method(x)
-        
+        self.get_source_test_helper(x)
       
     def test_bubblesort(self):
         '''Ensures that bubblesort can sort an iterable successfully'''

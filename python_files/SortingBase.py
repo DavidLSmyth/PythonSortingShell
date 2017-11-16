@@ -7,6 +7,7 @@ Created on Fri Sep  8 10:55:25 2017
 import collections
 import time
 import ctypes
+import inspect
 
 def timer(function):
     def wrapper(*args, **kwargs):
@@ -95,6 +96,14 @@ class SortingBase:
             iterable ordered descending
         '''
         pass
+    
+    def get_code(self) -> str:
+        '''Returns the textual representation of the sorting method and any auxiliary method called from the sorting method'''
+        #ToDo: return auxiliary sorting methods - merge, binary_search, etc.
+        if 'sort_recursive' in dir(self):
+            return inspect.getsource(self.sort_recursive)+inspect.getsource(self.sort)
+        else:
+            return inspect.getsource(self.sort)
             
     def __is_iterable(self,iterable: collections.Iterable):
         if isinstance(iterable, collections.Iterable):

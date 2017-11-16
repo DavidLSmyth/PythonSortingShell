@@ -6,7 +6,9 @@ Created on Tue Sep 12 14:09:58 2017
 """
 
 import unittest
-from Sorter import Sorter
+import sys
+sys.path.append('..')
+from python_files.Sorter import Sorter
 
 class TestSorter(unittest.TestCase):
     
@@ -21,11 +23,12 @@ class TestSorter(unittest.TestCase):
     def test_get_sorting_class(self):
         '''returns the sorting class given it's name'''
         #couldnt figure out error - manually import MergeSort to be sure
-        from SortingClasses import MergeSort
+        #from python_files.SortingClasses import MergeSort
         self.sorter.load_sorting_method('MergeSort')
         #strange behaviour observed here
+        from python_files.SortingClasses import MergeSort
         self.assertEqual(MergeSort.__name__, self.sorter.get_sorting_class('MergeSort').__name__)
-        del MergeSort
+        #del MergeSort
         
     def test_get_available_sorting_methods(self):
         self.sorter.load_all_methods()
@@ -33,6 +36,7 @@ class TestSorter(unittest.TestCase):
     
     def test_load_sorting_method(self):
         '''loads class name into current workspace'''
+        self.assertEqual(self.sorter.get_loaded_methods(), [])
         self.sorter.load_sorting_method('QuickSort')
         self.assertEqual(self.sorter.get_loaded_methods(), ['QuickSort'])
         self.sorter.load_sorting_method('MergeSort')
