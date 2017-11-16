@@ -103,3 +103,4 @@ ENV/
 # mypy
 .mypy_cache/
 >>>>>>> 4587f25fc8b2762114fdc7dd3e212488feb409be
+../VirtualEnv

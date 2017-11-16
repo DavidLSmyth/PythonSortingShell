@@ -15,11 +15,12 @@ class CFunctionMixin():
         try:
             os.chdir(os.curdir)
             sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
+
             sorting_algo = eval('sorting_lib.{}'.format(function_name))      
             sorting_algo.restype = None
             sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
         except OSError as e:
-            print(f'could not load {function_name} from file c_code/libsorting_functions.so')
+            print('could not load {} from file c_code/libsorting_functions.so'.format(function_name))
             raise e
         return sorting_algo
     
@@ -39,4 +40,4 @@ class CFunctionMixin():
     
     #ToDo
     def get_source(self):
-        raise NotImplementedError('Havent found a way to retrieve c code') 
+        raise NotImplementedError('Havent found a way to retrieve c code yet')
