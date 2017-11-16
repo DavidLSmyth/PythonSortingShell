@@ -1,6 +1,6 @@
 language: python
 python: 
-- "3.6"
+- "3.5"
 
 install: 
 - pip install -r requirements.txt
@@ -8,5 +8,5 @@ install:
 script: 
 - cd c_code
 - make 
-- cd ../python_files
+- cd test_files
 - python SortingTestSuite.py
