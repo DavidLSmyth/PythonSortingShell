@@ -19,6 +19,7 @@ class Sorter:
     Methods exist which can then benchmark loaded sorting classes against each other'''
     def __init__(self):
         self._loaded_sorting_methods = []
+        self._sorting_classes_module = importlib.import_module('python_files.SortingClasses')
         
     def get_loaded_methods(self):
         '''Returns the names of the sorting methods that have been loaded into the workspace'''
@@ -41,8 +42,7 @@ class Sorter:
                 # exec('from python_files.SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
                 # print('Loaded {} into current workspace'.format(sorting_method_name))
                 # self._loaded_sorting_methods.append(eval(sorting_method_name))
-                module_to_load = importlib.import_module('python_files.SortingClasses')
-                self._loaded_sorting_methods.append(getattr(module_to_load, sorting_method_name))
+                self._loaded_sorting_methods.append(getattr(self._sorting_classes_module, sorting_method_name))
             except ImportError as e:
                 print('Could not load {} into the workspace'.format(sorting_method_name))
         else:
