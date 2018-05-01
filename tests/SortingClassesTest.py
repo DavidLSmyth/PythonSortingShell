@@ -13,8 +13,8 @@ import math
 #3rd party imports
 
 #User defined imports
-from python_files.SortingBase import SortingBase
-from python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive, 
+from PythonSortingShell.python_files.SortingBase import SortingBase
+from PythonSortingShell.python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive,
 InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
 class TestSortingClasses(unittest.TestCase):

@@ -8,7 +8,7 @@ Created on Tue Sep 12 14:09:58 2017
 import unittest
 import sys
 sys.path.append('..')
-from python_files.Sorter import Sorter
+from PythonSortingShell.python_files.Sorter import Sorter
 
 class TestSorter(unittest.TestCase):
     
@@ -18,7 +18,7 @@ class TestSorter(unittest.TestCase):
     def test_get_loaded_methods(self):
         self.assertEqual(self.sorter.get_loaded_methods(),[])
         self.sorter.load_all_methods()
-        self.assertEqual(self.sorter.get_loaded_methods(), [sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()])
+        self.assertEqual(set(self.sorter.get_loaded_methods()), set([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()]))
     
     def test_get_sorting_class(self):
         '''returns the sorting class given it's name'''
@@ -31,8 +31,10 @@ class TestSorter(unittest.TestCase):
         #del MergeSort
         
     def test_get_available_sorting_methods(self):
+        print('available sorting methods pre load: {}'.format(self.sorter.get_loaded_methods()))
         self.sorter.load_all_methods()
-        self.assertEqual([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()], self.sorter.get_loaded_methods())
+        print('available sorting methods post load: {}'.format(self.sorter.get_loaded_methods()))
+        self.assertEqual(set([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()]), set(self.sorter.get_loaded_methods()))
     
     def test_load_sorting_method(self):
         '''loads class name into current workspace'''
@@ -47,7 +49,7 @@ class TestSorter(unittest.TestCase):
         
     def test_load_all_methods(self):
         self.sorter.load_all_methods()
-        self.assertEqual(self.sorter.get_loaded_methods(), [sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()])
+        self.assertEqual(set(self.sorter.get_loaded_methods()), set([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()]))
         
     def test_unload_sorting_method(self):
         '''unloads a single method from the workspace'''
@@ -59,7 +61,7 @@ class TestSorter(unittest.TestCase):
     def test_unload_all_loaded_method(self):
         '''unloads all loaded sorting methods from the workspace'''
         self.sorter.load_all_methods()
-        self.assertEqual(self.sorter.get_loaded_methods(), [sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()])
+        self.assertEqual(set(self.sorter.get_loaded_methods()), set([sorting_method.__name__ for sorting_method in self.sorter._get_available_sorting_methods()]))
         self.sorter.unload_all_loaded_methods()
         self.assertEqual(self.sorter.get_loaded_methods(), [])
     

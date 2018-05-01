@@ -6,12 +6,13 @@ import importlib
 
 #3rd party
 import matplotlib.pyplot as plt
-from matplotlib import animation
-from mpl_toolkits.mplot3d import Axes3D
+#from matplotlib import animation
+#from mpl_toolkits.mplot3d import Axes3D
 
 
 #user defined modules
-import python_files.SortingBase
+#from ..python_files\
+import PythonSortingShell.python_files.SortingBase
 
 
 class Sorter:
@@ -23,20 +24,20 @@ class Sorter:
         
     def get_loaded_methods(self):
         '''Returns the names of the sorting methods that have been loaded into the workspace'''
-        return(list(map(lambda x: x.__name__, self._loaded_sorting_methods)))
+        return list(map(lambda x: x.__name__, self._loaded_sorting_methods))
     
     def get_sorting_class(self, sorting_method_name):
         '''returns the sorting class given it's name'''
         return_class = list(filter(lambda x: x.__name__ == sorting_method_name, self._loaded_sorting_methods))
         if len(return_class) > 0:
-            return(return_class[0])
+            return return_class[0]
         else:
             raise ImportError('Please import {} first'.format(sorting_method_name))
 
     def load_sorting_method(self, sorting_method_name):
         '''loads class name into current workspace'''
         #check whether name has already been loaded
-        if sorting_method_name not in list(map(lambda x: x.__name__,self._loaded_sorting_methods)):
+        if sorting_method_name not in list(map(lambda x: x.__name__, self._loaded_sorting_methods)):
             try:
                 # exec('global {}'.format(sorting_method_name))
                 # exec('from python_files.SortingClasses import {}'.format(sorting_method_name,sorting_method_name ))
@@ -72,20 +73,20 @@ class Sorter:
         for sorting_method in self._get_available_sorting_methods():
             self.unload_sorting_method(sorting_method.__name__)
 
-    def sort_python(self,iterable: collections.Iterable, sorting_method):
+    def sort_python(self, iterable: collections.Iterable, sorting_method):
         if(sorting_method in self._loaded_sorting_methods):
             raise Exception('Method not yet loaded')
         else:
             return sorting_method.sort(iterable)
 
-    def sort_c(self,iterable: collections.Iterable, sorting_method, element_type = None):
-        if(sorting_method in self._loaded_sorting_methods):
+    def sort_c(self, iterable: collections.Iterable, sorting_method, element_type = None):
+        if sorting_method in self._loaded_sorting_methods:
             raise Exception('Method not yet loaded')
         else:
             return sorting_method.sort(iterable)
     
     def _get_available_sorting_methods(self) -> list:
-        return[sorting_class for sorting_class in python_files.SortingBase.SortingBase.__subclasses__()]
+        return[sorting_class for sorting_class in PythonSortingShell.python_files.SortingBase.SortingBase.__subclasses__()]
 
     def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50, no_runs = 1):
         '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
@@ -99,7 +100,7 @@ class Sorter:
             intrange = [-100000000,100000000]
         elif iterable_type == str:
             generator = lambda x: chr(random.randint())
-            intrange = [97,122]
+            intrange = [97, 122]
         return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(no_runs)])
     
     def profile_sorting_methods(self, all_methods = False):
@@ -120,9 +121,9 @@ class Sorter:
         if all_methods:
             for method_to_unload in list(filter(lambda x: x not in currently_loaded_methods, self._loaded_sorting_methods)):
                 self.unload_sorting_method(method_to_unload.__name__)
-        return (test_sizes,sorting_method_runtimes)
+        return test_sizes, sorting_method_runtimes
     
-    def plot_timings(self, all_methods = False, save_file_name = False, ThreeD = False):
+    def plot_timings(self, all_methods = False, save_file_name=False, ThreeD=False):
         test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods)    
         plt.clf()
         if not ThreeD:
@@ -135,8 +136,9 @@ class Sorter:
             self.fig = plt.figure()
             self.ax = self.fig.add_subplot(111, projection='3d')
             #(runtime, label_name) 
-            for index, runtime, label_name in zip([i for i in range(len(sorting_method_runtimes.values()))],list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
-                self.ax.plot(test_sizes,[index for i in range(len(runtime))],runtime,'p-', label = label_name)
+            for index, runtime, label_name in zip([i for i in range(len(sorting_method_runtimes.values()))],
+                                                  list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
+                self.ax.plot(test_sizes,[index for i in range(len(runtime))],runtime,'p-', label=label_name)
             self.ax.set_xlabel('Size of input')
             self.ax.set_ylabel('Sorting Algo')
             self.ax.set_zlabel('Time in milliseconds to run')

@@ -5,7 +5,7 @@
 #include "sorting_functions.h"
  
 /* Function to sort an array using insertion sort*/
-void c_insertion_sort(int arr[], int n)
+__declspec(dllexport) void c_insertion_sort(int arr[], int n)
 {
    int i, key, j;
    for (i = 1; i < n; i++)
@@ -25,7 +25,7 @@ void c_insertion_sort(int arr[], int n)
    }
 }
 
-void c_bubble_sort(int arr[], int no_elements){
+__declspec(dllexport) void c_bubble_sort(int arr[], int no_elements){
   
   for(int counter1=0; counter1 < no_elements; counter1++){
     for(int counter2 =0 ; counter2< no_elements-(counter1)-1; counter2++){
@@ -36,12 +36,12 @@ void c_bubble_sort(int arr[], int no_elements){
   }
 }
 
-void c_merge_sort(int arr[], int no_elements){
+__declspec(dllexport) void c_merge_sort(int arr[], int no_elements){
   c_merge_sort_implementation(arr, 0, no_elements/2, no_elements);
 }
 
 //c_merge_sort is really just a wrapper for c_merge_sort implementation
-void c_merge_sort_implementation(int arr[], int ll_start, int midpoint, int rl_end){
+__declspec(dllexport) void c_merge_sort_implementation(int arr[], int ll_start, int midpoint, int rl_end){
   if(rl_end-ll_start>1){
     //c_merge_sort gets placed on the stack
     /*
@@ -63,7 +63,7 @@ void c_merge_sort_implementation(int arr[], int ll_start, int midpoint, int rl_e
 
 //a utility function that swaps the position of i & j in an array
 //takes in a pointer to i, a pointer to j and swaps the values based on the following logic: 
-void swap(int *i, int *j){
+__declspec(dllexport) void swap(int *i, int *j){
   //
   //temp takes on the value of i
   int temp = *i;
@@ -74,7 +74,7 @@ void swap(int *i, int *j){
   *j = temp;
 }
 
-void merge(int array [], int ll_start, int midpoint, int rl_finish){
+__declspec(dllexport) void merge(int array [], int ll_start, int midpoint, int rl_finish){
   //mergesort is most easily done by passing by reference in c. Rather than memcpying often, pass indices
   //and the arrays raw
   //merges subarrays array[start, midpoint] and array[midpoint, finish]. This is specific to mergesort
@@ -143,7 +143,7 @@ void merge(int array [], int ll_start, int midpoint, int rl_finish){
  
 // A utility function ot print an array of size n
 // A utility function ot print an array of size n
-void printArray(int arr[], int n)
+__declspec(dllexport) void printArray(int arr[], int n)
 {
   int i;
   for (i=0; i < n; i++)
