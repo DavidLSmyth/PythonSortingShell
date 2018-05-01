@@ -7,7 +7,6 @@ install:
 
 script: 
 - cd c_code
-- ./clean.sh
-- ./build.sh
-- cd ../test_code
+- make
+- cd ../tests
 - python SortingTestSuite.py
