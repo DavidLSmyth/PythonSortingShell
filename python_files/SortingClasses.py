@@ -160,10 +160,10 @@ class CInsertionSort(CFunctionMixin,SortingBase, metaclass=SortingMeta):
         return super().sort(iterable)
 
     
-class CBubbleSort(CFunctionMixin,SortingBase, metaclass=SortingMeta):
+class CBubbleSort(CFunctionMixin, SortingBase, metaclass=SortingMeta):
     '''A c implementation of bubble sort. The sorting method is simply a 
     wrapper for a c function that sorts a list in-place'''
-    def __init__(self, timed = True):
+    def __init__(self, timed=True):
         super().__init__(timed)
         
     def __repr__(self):

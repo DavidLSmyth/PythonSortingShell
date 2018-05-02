@@ -10,32 +10,57 @@ import collections
 import ctypes
 import os
 import subprocess
-
+import platform
 
 class CFunctionMixin():
+    c_modules_compiled = False
+    plat = platform.platform().lower()
+    print('Platform: ', plat)
+    def __setup(self):
+
+        if 'windows' in CFunctionMixin.plat:
+            if not CFunctionMixin.c_modules_compiled:
+                print('Rebuilding windows sorting dll')
+                os.chdir('..\\c_code')
+                subprocess.call(["make", "-f", "MakeFileWin", "clean"])
+                subprocess.call(["make", "-f", "MakeFileWin"])
+                os.chdir('..\\python_files')
+                CFunctionMixin.c_modules_compiled = True
+            try:
+                self.sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
+
+            except OSError as e:
+                print('Could not load libsorting_functions.dll')
+                raise e
+
+        elif 'linux' in CFunctionMixin.plat:
+            if not CFunctionMixin.c_modules_compiled:
+                print('Rebuilding linux sorting dll')
+                os.chdir('..\\c_code')
+                subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
+                subprocess.call(["make", "-f", "MakeFileLinux"])
+                os.chdir('..\\python_files')
+            try:
+                self.sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
+                print(dir(self.sorting_lib))
+            except OSError as e:
+                print('Could not load libsorting_functions.so')
+                raise e
+            else:
+                #c modules have already been compiled
+                raise Exception('Could not detect OS to load sorting library')
+        else:
+            print("C functions have already been loaded")
+
 
     def load_c_function(self, function_name: str) -> 'function':
         '''Loads a c function - this is system dependent'''
-        import platform
-        plat_name = platform.platform(terse = 1).lower()
-        if 'windows' in plat_name:
-            platform = 'windows'
-            #print('Loading windows c sorting library...')
-            return self._load_c_sorting_function_windows(function_name)
-        elif 'linux' in plat_name:
-            platform = 'linux'
-            #print('Loading linux c sorting library...')
-            return self._load_c_sorting_function_linux(function_name)
-        elif 'macos' in plat_name:
-            print('MACOS is not supported....')
-            raise Exception('MACs are not supported....')
-        else:
-            print('Windows and linux are currently the only supported operating systems')
-            raise Exception('Windows and linux are currently the only supported operating systems')
+        self.__setup()
+        return self._load_c_sorting_function(function_name)
 
-    def _load_c_function(self, function_name, sorting_lib):
+    def _load_c_sorting_function(self, function_name):
         try:
-            sorting_algo = eval('sorting_lib.{}'.format(function_name))
+            sorting_algo = eval('self.sorting_lib.{}'.format(function_name))
             sorting_algo.restype = None
             sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
             return sorting_algo
@@ -43,32 +68,32 @@ class CFunctionMixin():
             print('Could not load {}'.format(function_name))
             raise e
 
-    def _load_c_sorting_function_windows(self, function_name: str):
-        print('rebuilding code')
-        os.chdir('..\\c_code')
-        subprocess.call(["make", "-f", "MakeFileWin", "clean"])
-        subprocess.call(["make", "-f", "MakeFileWin"])
-        os.chdir('..\\python_files')
-        try:
-            sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
-            return self._load_c_function(function_name, sorting_lib)
-        except OSError as e:
-            print('could not load {} from file c_code/libsorting_functions.so'.format(function_name))
-            raise e
-
-    def _load_c_sorting_function_linux(self, function_name: str):
-        print('rebuilding code')
-        os.chdir('..\\c_code')
-        subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
-        subprocess.call(["make", "-f", "MakeFileLinux"])
-        os.chdir('..\\python_files')
-        try:
-            #os.chdir(os.curdir)
-            sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
-            return self._load_c_function(function_name, sorting_lib)
-        except OSError as e:
-            print('could not load {} from file c_code/libsorting_functions.so'.format(function_name))
-            raise e
+    # def _load_c_sorting_function_windows(self, function_name: str):
+    #     print('rebuilding code')
+    #     os.chdir('..\\c_code')
+    #     subprocess.call(["make", "-f", "MakeFileWin", "clean"])
+    #     subprocess.call(["make", "-f", "MakeFileWin"])
+    #     os.chdir('..\\python_files')
+    #     try:
+    #         sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
+    #         return self._load_c_function(function_name, sorting_lib)
+    #     except OSError as e:
+    #         print('could not load {} from file c_code/libsorting_functions.so'.format(function_name))
+    #         raise e
+    #
+    # def _load_c_sorting_function_linux(self, function_name: str):
+    #     print('rebuilding code')
+    #     os.chdir('..\\c_code')
+    #     subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
+    #     subprocess.call(["make", "-f", "MakeFileLinux"])
+    #     os.chdir('..\\python_files')
+    #     try:
+    #         #os.chdir(os.curdir)
+    #         sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
+    #         return self._load_c_function(function_name, sorting_lib)
+    #     except OSError as e:
+    #         print('could not load {} from file c_code/libsorting_functions.so'.format(function_name))
+    #         raise e
 
 
     def prepare_c_int_array(self, iterable: collections.Iterable)->collections.Iterable:
