@@ -10,10 +10,10 @@ Created on Tue Sep 12 19:44:34 2017
 #stdlib
 import unittest
 import sys
-sys.path.append('..')
+#sys.path.append('..')
 #user defined
-from SorterTest import TestSorter
-from SortingClassesTest import TestSortingClasses
+from .SorterTest import TestSorter
+from .SortingClassesTest import TestSortingClasses
 
 test_sorter = unittest.TestLoader().loadTestsFromTestCase(TestSorter)
 test_sorting_classes = unittest.TestLoader().loadTestsFromTestCase(TestSortingClasses)
