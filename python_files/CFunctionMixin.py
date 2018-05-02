@@ -44,10 +44,11 @@ class CFunctionMixin():
             raise e
 
     def _load_c_sorting_function_windows(self, function_name: str):
-        # print('rebuilding code')
-        # os.chdir('..\\c_code')
-        # subprocess.call(["..\\c_code\\build.cmd"])
-        # os.chdir('..\\python_files')
+        print('rebuilding code')
+        os.chdir('..\\c_code')
+        subprocess.call(["make", "-f", "MakeFileWin", "clean"])
+        subprocess.call(["make", "-f", "MakeFileWin"])
+        os.chdir('..\\python_files')
         try:
             sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
             return self._load_c_function(function_name, sorting_lib)
@@ -56,10 +57,11 @@ class CFunctionMixin():
             raise e
 
     def _load_c_sorting_function_linux(self, function_name: str):
-        # print('rebuilding code')
-        # os.chdir('../c_code')
-        # subprocess.call(["../c_code/build.sh"])
-        # os.chdir('../python_files')
+        print('rebuilding code')
+        os.chdir('..\\c_code')
+        subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
+        subprocess.call(["make", "-f", "MakeFileLinux"])
+        os.chdir('..\\python_files')
         try:
             #os.chdir(os.curdir)
             sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")

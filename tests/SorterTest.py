@@ -26,7 +26,7 @@ class TestSorter(unittest.TestCase):
         #from python_files.SortingClasses import MergeSort
         self.sorter.load_sorting_method('MergeSort')
         #strange behaviour observed here
-        from python_files.SortingClasses import MergeSort
+        from PythonSortingShell.python_files.SortingClasses import MergeSort
         self.assertEqual(MergeSort.__name__, self.sorter.get_sorting_class('MergeSort').__name__)
         #del MergeSort
         

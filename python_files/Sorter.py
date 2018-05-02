@@ -20,7 +20,7 @@ class Sorter:
     Methods exist which can then benchmark loaded sorting classes against each other'''
     def __init__(self):
         self._loaded_sorting_methods = []
-        self._sorting_classes_module = importlib.import_module('python_files.SortingClasses')
+        self._sorting_classes_module = importlib.import_module('PythonSortingShell.python_files.SortingClasses')
         
     def get_loaded_methods(self):
         '''Returns the names of the sorting methods that have been loaded into the workspace'''

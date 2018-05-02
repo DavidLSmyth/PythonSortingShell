@@ -5,7 +5,7 @@ Created on Thu Sep 21 18:42:29 2017
 
 @author: david
 """
-from Sorter import Sorter
+from PythonSortingShell.python_files.Sorter import Sorter
 
 def main():
     test_sorter = Sorter()
