@@ -19,6 +19,7 @@ matrix:
         - python SortingTestSuite.py
 
     - os: windows
+      language: python
       python: 3.5
       install:
         - pip install -r requirements.txt
