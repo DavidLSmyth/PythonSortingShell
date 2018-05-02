@@ -36,10 +36,10 @@ class CFunctionMixin():
         elif 'linux' in CFunctionMixin.plat:
             if not CFunctionMixin.c_modules_compiled:
                 print('Rebuilding linux sorting dll')
-                os.chdir('..\\c_code')
+                os.chdir('../c_code')
                 subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
                 subprocess.call(["make", "-f", "MakeFileLinux"])
-                os.chdir('..\\python_files')
+                os.chdir('../python_files')
             try:
                 self.sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
                 print(dir(self.sorting_lib))
