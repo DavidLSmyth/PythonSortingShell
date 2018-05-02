@@ -26,6 +26,10 @@ class CFunctionMixin():
                 subprocess.call(["make", "-f", "MakeFileWin"])
                 os.chdir('..\\python_files')
                 CFunctionMixin.c_modules_compiled = True
+            else:
+                print("C functions have already been loaded")
+                #c modules have already been compiled
+                
             try:
                 self.sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
 
@@ -40,17 +44,19 @@ class CFunctionMixin():
                 subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
                 subprocess.call(["make", "-f", "MakeFileLinux"])
                 os.chdir('../python_files')
+            else:
+                print("C functions have already been loaded")
+                #c modules have already been compiled
+
             try:
                 self.sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
                 print(dir(self.sorting_lib))
             except OSError as e:
                 print('Could not load libsorting_functions.so')
                 raise e
-            else:
-                #c modules have already been compiled
-                raise Exception('Could not detect OS to load sorting library')
+
         else:
-            print("C functions have already been loaded")
+            raise Exception('Could not detect OS to load sorting library')
 
 
     def load_c_function(self, function_name: str) -> 'function':
