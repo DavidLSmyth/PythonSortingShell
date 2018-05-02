@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "sorting_functions.h"
- 
+
 /* Function to sort an array using insertion sort*/
 __declspec(dllexport) void c_insertion_sort(int arr[], int n)
 {
@@ -12,7 +12,7 @@ __declspec(dllexport) void c_insertion_sort(int arr[], int n)
    {
        key = arr[i];
        j = i-1;
- 
+
        /* Move elements of arr[0..i-1], that are
           greater than key, to one position ahead
           of their current position */
@@ -26,7 +26,7 @@ __declspec(dllexport) void c_insertion_sort(int arr[], int n)
 }
 
 __declspec(dllexport) void c_bubble_sort(int arr[], int no_elements){
-  
+
   for(int counter1=0; counter1 < no_elements; counter1++){
     for(int counter2 =0 ; counter2< no_elements-(counter1)-1; counter2++){
       if(arr[counter2]>arr[counter2+1]){
@@ -62,7 +62,7 @@ __declspec(dllexport) void c_merge_sort_implementation(int arr[], int ll_start, 
 
 
 //a utility function that swaps the position of i & j in an array
-//takes in a pointer to i, a pointer to j and swaps the values based on the following logic: 
+//takes in a pointer to i, a pointer to j and swaps the values based on the following logic:
 __declspec(dllexport) void swap(int *i, int *j){
   //
   //temp takes on the value of i
@@ -78,10 +78,10 @@ __declspec(dllexport) void merge(int array [], int ll_start, int midpoint, int r
   //mergesort is most easily done by passing by reference in c. Rather than memcpying often, pass indices
   //and the arrays raw
   //merges subarrays array[start, midpoint] and array[midpoint, finish]. This is specific to mergesort
-  
+
   int counter1 = 0;
   int counter2 = 0;
-  
+
   int array1 [midpoint-ll_start];
   int array2 [rl_finish-midpoint];
   memcpy(&array2, &array[midpoint], sizeof(int) * (rl_finish-midpoint));
@@ -89,7 +89,7 @@ __declspec(dllexport) void merge(int array [], int ll_start, int midpoint, int r
   //int array1_size = array1_finish-ll_start;
   //int array2_size = rl_finish-array2_start;
   int return_array_counter = ll_start;
-  
+
   //printArray(array,(rl_finish - ll_start));
   //printArray(array1, midpoint-ll_start);
   //printArray(array2, rl_finish-midpoint);
@@ -140,7 +140,7 @@ __declspec(dllexport) void merge(int array [], int ll_start, int midpoint, int r
   //return return_array;
 }
 
- 
+
 // A utility function ot print an array of size n
 // A utility function ot print an array of size n
 __declspec(dllexport) void printArray(int arr[], int n)
