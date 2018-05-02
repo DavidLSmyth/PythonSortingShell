@@ -7,7 +7,7 @@ Created on Tue Sep 12 14:09:58 2017
 
 import unittest
 import sys
-#sys.path.append('..')
+sys.path.append('../..')
 from PythonSortingShell.python_files.Sorter import Sorter
 
 class TestSorter(unittest.TestCase):

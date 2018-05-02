@@ -11,7 +11,8 @@ import math
 #import ctypes
 
 #3rd party imports
-
+import sys
+sys.append('../..')
 #User defined imports
 from PythonSortingShell.python_files.SortingBase import SortingBase
 from PythonSortingShell.python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive,

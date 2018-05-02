@@ -10,7 +10,7 @@ Created on Tue Sep 12 19:44:34 2017
 #stdlib
 import unittest
 import sys
-sys.path.append('../')
+sys.path.append('../..')
 #user defined
 from PythonSortingShell.tests.SorterTest import TestSorter
 from PythonSortingShell.tests.SortingClassesTest import TestSortingClasses
