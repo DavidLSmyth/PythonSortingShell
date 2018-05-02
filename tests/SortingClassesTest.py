@@ -12,7 +12,7 @@ import math
 
 #3rd party imports
 import sys
-sys.append('../..')
+sys.path.append('../..')
 #User defined imports
 from PythonSortingShell.python_files.SortingBase import SortingBase
 from PythonSortingShell.python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive,
