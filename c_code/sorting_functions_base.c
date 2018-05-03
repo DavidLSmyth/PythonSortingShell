@@ -26,9 +26,10 @@ __declspec(dllexport) void c_insertion_sort(int arr[], int n)
 }
 
 __declspec(dllexport) void c_bubble_sort(int arr[], int no_elements){
-
-  for(int counter1=0; counter1 < no_elements; counter1++){
-    for(int counter2 =0 ; counter2< no_elements-(counter1)-1; counter2++){
+  int counter1;
+  int counter2;
+  for(counter1 = 0; counter1 < no_elements; counter1++){
+    for(counter2 = 0 ; counter2< no_elements-(counter1)-1; counter2++){
       if(arr[counter2]>arr[counter2+1]){
         swap(& arr[counter2], & arr[counter2+1]);
       }
