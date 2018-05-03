@@ -51,7 +51,7 @@ class CFunctionMixin():
             #c modules have already been compiled
 
         try:
-            sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
+            sorting_lib = ctypes.CDLL(os.getcwd() + "../c_code/libsorting_functions.so")
             print(dir(sorting_lib))
         except OSError as e:
             print('Could not load libsorting_functions.so')
