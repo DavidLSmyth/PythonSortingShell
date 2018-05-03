@@ -17,7 +17,9 @@ $(DLL): sorting_functions.o
 sorting_functions.o: sorting_functions.c
 	@echo $(DLL)
 	cp sorting_functions_base.c sorting_functions.c
+	cat sorting_functions.c
 	sed -e "s/__declspec(dllexport) //g" sorting_functions.c > sorting_functions.c
+	cat sorting_functions.c
 	gcc -c -Wall -Werror -fpic sorting_functions.c
 
 clean:
