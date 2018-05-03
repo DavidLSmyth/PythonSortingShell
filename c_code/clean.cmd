@@ -1,1 +1,0 @@
-del sorting_functions.o libsorting_functions.dll

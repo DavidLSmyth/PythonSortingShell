@@ -1,1 +1,0 @@
-rm sorting_functions.o libsorting_functions.so
