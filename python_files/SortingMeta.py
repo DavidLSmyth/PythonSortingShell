@@ -12,4 +12,4 @@ class SortingMeta(type):
         #kind of like java interface
         if name != 'SortingBase' and not 'sort' in body:
             raise TypeError('{} is not a valid derived sorting class'.format(name))
-        return super().__new__(cls,name,bases,body)
+        return super().__new__(cls, name, bases, body)

@@ -13,60 +13,62 @@ import subprocess
 import platform
 
 class CFunctionMixin():
+    #pre-initialisation loads in c sorting library pre-emptively
     c_modules_compiled = False
     plat = platform.platform().lower()
     print('Platform: ', plat)
-    def __setup(self):
+    #def __setup(self):
 
-        if 'windows' in CFunctionMixin.plat:
-            if not CFunctionMixin.c_modules_compiled:
-                print('Rebuilding windows sorting dll')
-                os.chdir('..\\c_code')
-                subprocess.call(["make", "-f", "MakeFileWin", "clean"])
-                subprocess.call(["make", "-f", "MakeFileWin"])
-                os.chdir('..\\python_files')
-                CFunctionMixin.c_modules_compiled = True
-            else:
-                print("C functions have already been loaded")
-                #c modules have already been compiled
-                
-            try:
-                self.sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
-
-            except OSError as e:
-                print('Could not load libsorting_functions.dll')
-                raise e
-
-        elif 'linux' in CFunctionMixin.plat:
-            if not CFunctionMixin.c_modules_compiled:
-                print('Rebuilding linux sorting dll')
-                os.chdir('../c_code')
-                subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
-                subprocess.call(["make", "-f", "MakeFileLinux"])
-                os.chdir('../python_files')
-            else:
-                print("C functions have already been loaded")
-                #c modules have already been compiled
-
-            try:
-                self.sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
-                print(dir(self.sorting_lib))
-            except OSError as e:
-                print('Could not load libsorting_functions.so')
-                raise e
-
+    if 'windows' in plat:
+        if not c_modules_compiled:
+            print('Rebuilding windows sorting dll')
+            os.chdir('..\\c_code')
+            subprocess.call(["make", "-f", "MakeFileWin", "clean"])
+            subprocess.call(["make", "-f", "MakeFileWin"])
+            os.chdir('..\\python_files')
+            c_modules_compiled = True
         else:
-            raise Exception('Could not detect OS to load sorting library')
+            print("C functions have already been loaded")
+            #c modules have already been compiled
+
+        try:
+            sorting_lib = ctypes.cdll.LoadLibrary('../c_code/libsorting_functions.dll')
+            print(dir(sorting_lib))
+        except OSError as e:
+            print('Could not load libsorting_functions.dll')
+            raise e
+
+    elif 'linux' in plat:
+        if not c_modules_compiled:
+            print('Rebuilding linux sorting dll')
+            os.chdir('../c_code')
+            subprocess.call(["make", "-f", "MakeFileLinux", "clean"])
+            subprocess.call(["make", "-f", "MakeFileLinux"])
+            os.chdir('../python_files')
+            c_modules_compiled = True
+        else:
+            print("C functions have already been loaded")
+            #c modules have already been compiled
+
+        try:
+            sorting_lib = ctypes.CDLL("../c_code/libsorting_functions.so")
+            print(dir(sorting_lib))
+        except OSError as e:
+            print('Could not load libsorting_functions.so')
+            raise e
+
+    else:
+        raise Exception('Could not detect OS to load sorting library')
 
 
     def load_c_function(self, function_name: str) -> 'function':
         '''Loads a c function - this is system dependent'''
-        self.__setup()
+        #self.__setup()
         return self._load_c_sorting_function(function_name)
 
     def _load_c_sorting_function(self, function_name):
         try:
-            sorting_algo = eval('self.sorting_lib.{}'.format(function_name))
+            sorting_algo = eval('CFunctionMixin.sorting_lib.{}'.format(function_name))
             sorting_algo.restype = None
             sorting_algo.argtypes = (ctypes.POINTER(ctypes.c_int), ctypes.c_int)
             return sorting_algo
