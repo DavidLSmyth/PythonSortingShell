@@ -11,6 +11,7 @@ import ctypes
 import os
 import subprocess
 import platform
+import sys
 
 class CFunctionMixin():
     #pre-initialisation loads in c sorting library pre-emptively
@@ -18,7 +19,7 @@ class CFunctionMixin():
     plat = platform.platform().lower()
     print('Platform: ', plat)
     #def __setup(self):
-
+    print(os.path.abspath(os.curdir + '/..'))
     if 'windows' in plat:
         if not c_modules_compiled:
             print('Rebuilding windows sorting dll')
@@ -51,7 +52,7 @@ class CFunctionMixin():
             #c modules have already been compiled
 
         try:
-            sorting_lib = ctypes.CDLL(os.getcwd() + "/../c_code/libsorting_functions.so")
+            sorting_lib = ctypes.CDLL(os.path.abspath(os.curdir + '/..') + "/c_code/libsorting_functions.so")
             print(dir(sorting_lib))
         except OSError as e:
             print('Could not load libsorting_functions.so')
