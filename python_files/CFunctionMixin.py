@@ -19,7 +19,7 @@ class CFunctionMixin():
     plat = platform.platform().lower()
     print('Platform: ', plat)
     #def __setup(self):
-    print(os.path.abspath(os.curdir + '/..'))
+
     if 'windows' in plat:
         if not c_modules_compiled:
             print('Rebuilding windows sorting dll')

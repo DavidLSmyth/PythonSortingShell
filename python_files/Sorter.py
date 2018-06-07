@@ -103,12 +103,12 @@ class Sorter:
             intrange = [97, 122]
         return mean([sorting_method.sort(iterable)[1] for iterable in [[generator(*intrange) for element in range(input_size)]]for l in range(no_runs)])
     
-    def profile_sorting_methods(self, all_methods = False):
+    def profile_sorting_methods(self, all_methods=False, max_test_size=80):
         '''Runs specified sorting methods on different sized inputs and offers a summary 
         of the runtimes of each.'''
         print('\nProfiling loaded sorting methods. This may take a while...\n')
         #maybe use yield here because it takes a while!
-        test_sizes = [int((100*i)) for i in range(20,80,4)]
+        test_sizes = [int((100*i)) for i in range(20, max_test_size, 4)]
         sorting_method_runtimes = {}
         if all_methods:
             #make a copy of currently loaded methods
@@ -117,14 +117,14 @@ class Sorter:
                 
         for sorting_class in self._loaded_sorting_methods:
             print('profiling: {}'.format(sorting_class.__name__))
-            sorting_method_runtimes[sorting_class.__name__] = list(map(lambda x: self._get_average_runtime(sorting_class(True), input_size = x), test_sizes))
+            sorting_method_runtimes[sorting_class.__name__] = list(map(lambda x: self._get_average_runtime(sorting_class(True), input_size=x), test_sizes))
         if all_methods:
             for method_to_unload in list(filter(lambda x: x not in currently_loaded_methods, self._loaded_sorting_methods)):
                 self.unload_sorting_method(method_to_unload.__name__)
         return test_sizes, sorting_method_runtimes
     
-    def plot_timings(self, all_methods = False, save_file_name=False, ThreeD=False):
-        test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods)    
+    def plot_timings(self, max_test_size=80, all_methods=False, save_file_name=False, ThreeD=False):
+        test_sizes, sorting_method_runtimes = self.profile_sorting_methods(all_methods, max_test_size)
         plt.clf()
         if not ThreeD:
             for runtime, label_name in zip(list(sorting_method_runtimes.values()), list(sorting_method_runtimes.keys())):
@@ -145,7 +145,7 @@ class Sorter:
             #[index for i in range(len(runtime))], 
             self.ax.set_yticklabels(list(sorting_method_runtimes.keys()))
                 
-        plt.legend(loc = 'upper left')
+        plt.legend(loc='upper left')
 
         if save_file_name:
             import os
@@ -156,18 +156,18 @@ class Sorter:
             
         
 
-#x = Sorter()
-#x.load_sorting_method('QuickSort')
-#x.load_sorting_method('MergeSort')
-#x.load_all_methods()
-#x.unload_sorting_method('BubbleSortRecursive')
-#x.unload_sorting_method('MergeSortRecursive')
-#x._get_available_sorting_methods()
-#x.get_loaded_methods()
-#x.unload_sorting_method('QuickSort')
-#x.get_loaded_methods()
-#x._loaded_sorting_methods
-#x.plot_timings()
+x = Sorter()
+x.load_sorting_method('QuickSort')
+x.load_sorting_method('MergeSort')
+x.load_all_methods()
+x.unload_sorting_method('BubbleSortRecursive')
+x.unload_sorting_method('MergeSortRecursive')
+x._get_available_sorting_methods()
+x.get_loaded_methods()
+x.unload_sorting_method('QuickSort')
+x.get_loaded_methods()
+x._loaded_sorting_methods
+x.plot_timings(200, save_file_name = 'test')
 
 
 

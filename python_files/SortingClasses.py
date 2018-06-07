@@ -82,7 +82,7 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
         return sublists[0]
 
 
-class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
+class MergeSortRecursive(SortingBase, metaclass=SortingMeta):
     def __init__(self, timed=True):
         super().__init__(timed)
         
@@ -92,7 +92,6 @@ class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
     def sort(self, iterable: collections.Iterable)->'tuple(iterable, int) if timed else iterable':
         #verify iterable can be sorted
         self._verify_sortable(iterable)
-        
         if len(iterable) == 1:
             return iterable
         else:
