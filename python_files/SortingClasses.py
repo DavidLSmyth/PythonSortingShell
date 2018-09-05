@@ -9,9 +9,13 @@ from random import randint
 #3rd party
 
 #user defined
-from PythonSortingShell.python_files.SortingMeta import SortingMeta
-from PythonSortingShell.python_files.SortingBase import SortingBase
-from PythonSortingShell.python_files.CFunctionMixin import CFunctionMixin
+#from PythonSortingShell.python_files.SortingMeta import SortingMeta
+#from PythonSortingShell.python_files.SortingBase import SortingBase
+#from PythonSortingShell.python_files.CFunctionMixin import CFunctionMixin
+
+from SortingMeta import SortingMeta
+from SortingBase import SortingBase
+from CFunctionMixin import CFunctionMixin
 
 
 class BubbleSort(SortingBase, metaclass=SortingMeta):

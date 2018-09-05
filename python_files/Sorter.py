@@ -12,15 +12,16 @@ import matplotlib.pyplot as plt
 
 #user defined modules
 #from ..python_files\
-import PythonSortingShell.python_files.SortingBase
 
+from AlgoAnalyser import AlgoProfiler
+from SortingBase import SortingBase
 
 class Sorter:
     '''A class which can load and unload sorting classes from SortingClasses into the workspace. 
     Methods exist which can then benchmark loaded sorting classes against each other'''
     def __init__(self):
         self._loaded_sorting_methods = []
-        self._sorting_classes_module = importlib.import_module('PythonSortingShell.python_files.SortingClasses')
+        self._sorting_classes_module = importlib.import_module('SortingClasses')
         
     def get_loaded_methods(self):
         '''Returns the names of the sorting methods that have been loaded into the workspace'''
@@ -86,10 +87,10 @@ class Sorter:
             return sorting_method.sort(iterable)
     
     def _get_available_sorting_methods(self) -> list:
-        return[sorting_class for sorting_class in PythonSortingShell.python_files.SortingBase.SortingBase.__subclasses__()]
+        return[sorting_class for sorting_class in SortingBase.__subclasses__()]
 
     def _get_average_runtime(self,sorting_method,iterable_type = int, input_size = 50, no_runs = 1):
-        '''For a given number of elements, gets the average runtime for 3 runs with that input size'''
+        '''For a given number of elements, gets the average runtime for no_runs with that input size'''
         if iterable_type not in [int, float, str]:
             print('Might not be able to generate random types in iterable for {}'.format(sorting_method))
         if iterable_type == int:
@@ -105,14 +106,18 @@ class Sorter:
     
     def profile_sorting_methods(self, all_methods=False, max_test_size=80):
         '''Runs specified sorting methods on different sized inputs and offers a summary 
-        of the runtimes of each.'''
+        of the runtimes of each.
+        test_sizes: a list of input sizes
+        sorting_method_runtimes: a dict of sorting method names with a list of corresponding runtimes for each runtime in test_sizes
+        '''
         print('\nProfiling loaded sorting methods. This may take a while...\n')
         #maybe use yield here because it takes a while!
-        test_sizes = [int((100*i)) for i in range(20, max_test_size, 4)]
+        test_sizes = [int((100*i)) for i in range(20, max_test_size, 50)]
         sorting_method_runtimes = {}
         if all_methods:
             #make a copy of currently loaded methods
             currently_loaded_methods = self._loaded_sorting_methods
+            print('Loading all methods into workspace')
             self.load_all_methods()
                 
         for sorting_class in self._loaded_sorting_methods:
@@ -152,23 +157,32 @@ class Sorter:
             os.chdir('.')
             plt.savefig('../{}.png'.format(save_file_name))
             
+    def get_most_likely_runtime_upper_bound_for_loaded_methods(self, iterable_type):
+        test_sizes, runtimes = self.profile_sorting_methods(max_test_size = 500)
+        algo_analyser = AlgoProfiler()
+        for sorting_method, timing in runtimes.items():
+            #print('test sizes: {}     timing: {}'.format(test_sizes, timing))
+            print('Identified possible runtime bound for {}: '.format(sorting_method),algo_analyser.analyse(test_sizes, timing).__doc__)
+            print('Simulated annealing possible runtime bound for {}'.format(sorting_method),algo_analyser.analyse_sim_annealing(test_sizes, timing).__doc__)
+            print('\n')
 
-            
-        
-
-x = Sorter()
-x.load_sorting_method('QuickSort')
-x.load_sorting_method('MergeSort')
-x.load_all_methods()
-x.unload_sorting_method('BubbleSortRecursive')
-x.unload_sorting_method('MergeSortRecursive')
-x._get_available_sorting_methods()
-x.get_loaded_methods()
-x.unload_sorting_method('QuickSort')
-x.get_loaded_methods()
-x._loaded_sorting_methods
-x.plot_timings(200, save_file_name = 'test')
-
+def main():
+    x = Sorter()
+    x.load_sorting_method('QuickSort')
+    x.load_sorting_method('MergeSort')
+    x.load_all_methods()
+    x.unload_sorting_method('BubbleSortRecursive')
+    x.unload_sorting_method('MergeSortRecursive')
+    x._get_available_sorting_methods()
+    x.get_loaded_methods()
+    #x.unload_sorting_method('QuickSort')
+    x.unload_sorting_method('BubbleSort')
+    print('loaded methods: ', x.get_loaded_methods())
+    print('loaded methods verification: ', x._loaded_sorting_methods)
+    x.get_most_likely_runtime_upper_bound_for_loaded_methods(int)
+#    x.plot_timings(200, save_file_name = 'test')
+if __name__ == '__main__':
+    main()    
 
 
 
