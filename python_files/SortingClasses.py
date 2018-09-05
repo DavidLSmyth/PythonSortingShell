@@ -9,14 +9,16 @@ from random import randint
 #3rd party
 
 #user defined
-from python_files.SortingMeta import SortingMeta
-from python_files.SortingBase import SortingBase
-from python_files.CFunctionMixin import CFunctionMixin 
+#from PythonSortingShell.python_files.SortingMeta import SortingMeta
+#from PythonSortingShell.python_files.SortingBase import SortingBase
+#from PythonSortingShell.python_files.CFunctionMixin import CFunctionMixin
+
+from SortingMeta import SortingMeta
+from SortingBase import SortingBase
+from CFunctionMixin import CFunctionMixin
 
 
-
-
-class BubbleSort(SortingBase,metaclass=SortingMeta):
+class BubbleSort(SortingBase, metaclass=SortingMeta):
     
     def __init__(self, timed = True):
         super().__init__(timed)
@@ -31,9 +33,10 @@ class BubbleSort(SortingBase,metaclass=SortingMeta):
             for unsorted_elements_index in range(len(iterable[:sorted_elements_index])-1):
                 if iterable[unsorted_elements_index]>iterable[unsorted_elements_index+1]:
                     #swap with next
-                   iterable[unsorted_elements_index], iterable[unsorted_elements_index+1] = iterable[unsorted_elements_index+1], iterable[unsorted_elements_index]
+                    iterable[unsorted_elements_index], iterable[unsorted_elements_index+1] = iterable[unsorted_elements_index+1], iterable[unsorted_elements_index]
         return iterable
-    
+
+
 class BubbleSortRecursive(SortingBase,metaclass=SortingMeta):
     def __init__(self, timed = True):
         super().__init__(timed)
@@ -82,7 +85,8 @@ class MergeSort(SortingBase,metaclass=SortingMeta):
             sublists = list(map(lambda x,y: SortingBase.merge(x,y), sublists[::2], sublists[1::2]))
         return sublists[0]
 
-class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
+
+class MergeSortRecursive(SortingBase, metaclass=SortingMeta):
     def __init__(self, timed=True):
         super().__init__(timed)
         
@@ -92,7 +96,6 @@ class MergeSortRecursive(SortingBase, metaclass = SortingMeta):
     def sort(self, iterable: collections.Iterable)->'tuple(iterable, int) if timed else iterable':
         #verify iterable can be sorted
         self._verify_sortable(iterable)
-        
         if len(iterable) == 1:
             return iterable
         else:
@@ -123,7 +126,8 @@ class QuickSort(SortingBase, metaclass = SortingMeta):
             wall_index = randint(0, len(iterable)-1)
            # print('wall_index, wall: {}, {}'.format(wall_index, iterable[wall_index]))
             return self.sort_recursive(list(filter(lambda x: x<iterable[wall_index], iterable))) + list(filter(lambda x: x==iterable[wall_index], iterable)) + self.sort_recursive(list((filter(lambda x: x>iterable[wall_index], iterable))))
-    
+
+
 class InsertionSort(SortingBase, metaclass = SortingMeta):   
     def __init__(self, timed = True):
         super().__init__(timed)
@@ -142,10 +146,10 @@ class InsertionSort(SortingBase, metaclass = SortingMeta):
             else:
                 sorted_list.insert(-(position+1),element)
         return sorted_list
-    
+
 #Maybe mixin is not really necessary here. 
 #In python, inheritance order is from right to left
-class CInsertionSort(CFunctionMixin,SortingBase, metaclass = SortingMeta):
+class CInsertionSort(CFunctionMixin,SortingBase, metaclass=SortingMeta):
     '''A c implementation of insertion sort. The sorting method is simply a 
     wrapper for a c function that sorts a list in-place'''
     def __init__(self, timed = True):
@@ -159,10 +163,10 @@ class CInsertionSort(CFunctionMixin,SortingBase, metaclass = SortingMeta):
         return super().sort(iterable)
 
     
-class CBubbleSort(CFunctionMixin,SortingBase, metaclass = SortingMeta):
+class CBubbleSort(CFunctionMixin, SortingBase, metaclass=SortingMeta):
     '''A c implementation of bubble sort. The sorting method is simply a 
     wrapper for a c function that sorts a list in-place'''
-    def __init__(self, timed = True):
+    def __init__(self, timed=True):
         super().__init__(timed)
         
     def __repr__(self):
@@ -172,7 +176,7 @@ class CBubbleSort(CFunctionMixin,SortingBase, metaclass = SortingMeta):
         '''Begin with an empty list. Insert element by element to sorted list'''
         return super().sort(iterable)
     
-class CMergeSort(CFunctionMixin,SortingBase, metaclass = SortingMeta):
+class CMergeSort(CFunctionMixin,SortingBase, metaclass=SortingMeta):
     '''A c implementation of merge sort. The sorting method is simply a 
     wrapper for a c function that sorts a list in-place'''
     def __init__(self, timed = True):

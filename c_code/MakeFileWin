@@ -1,0 +1,32 @@
+#This is a linux makefile for convenience
+#Running make will compile the shared libraries necessary for python sorting shell
+ifeq ($(OS),Windows_NT)
+	DLLEXT := .dll
+else
+	$(error Please run the makefile for your os! Linux detected)
+	exit 1
+endif
+
+DLL := libsorting_functions$(DLLEXT)
+
+
+#lib : $(DLL)
+
+
+$(DLL): sorting_functions.o
+	@echo $(DLLEXT)
+	gcc -shared -o $(DLL) sorting_functions.o
+
+
+sorting_functions.o: sorting_functions.c
+	@echo $(DLL)
+	cp sorting_functions_base.c sorting_functions.c
+	gcc -c -Wall -Werror -fpic sorting_functions.c
+
+clean:
+	rm -f sorting_functions.o libsorting_functions.dll
+	
+
+
+#gcc -c -Wall -Werror -fpic sorting_functions.c
+#gcc -shared -o libsorting_functions.dll sorting_functions.o

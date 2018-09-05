@@ -132,5 +132,3 @@ class SortingBase:
         #Raise all exceptions
         for i in list(filter(lambda x: isinstance(x, Exception),map(lambda f: f(iterable),[self.__is_iterable, self.__iterable_type_uniform, self.__implements_lt]))):
             raise i
-       
-        
