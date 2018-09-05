@@ -7,6 +7,7 @@ A project which implements various sorting algorithms which can then be benchmar
 * Practice using CI tools such as travis.
 * Practice writing sorting algorithms efficiently.
 
+<<<<<<< HEAD
 Written and tested using Ubuntu 16.04. Install MinGW on windows with make and gcc in order to run on Windows. Alternatively compile the sorting library to a dll manually (visual studio compiler is probably easiest) and then modify the windows makefile (c_code/MakeFileWin) correspondingly.
 
 ## Extending the code to add your own sorting classes written in c to be benchmarked. 
@@ -33,6 +34,16 @@ Again, this is simple: Define a class that extends SortingBase and has metaclass
 Edit and generate_fig.py to generate figures of the runtimes of desired sorting algorithms
 
 ## Examples of generated figures:
+=======
+Written and tested using Ubuntu 16.04.
+
+## Running the code
+
+
+## Extending the project with your own sorting classes
+
+
+>>>>>>> b13079bee225bcded4e650d2caf6806116e0e35e
 ![alt text](https://github.com/DavidLSmyth/PythonSortingShell/blob/master/demo.png)
 ![alt text](https://github.com/DavidLSmyth/PythonSortingShell/blob/master/demo1.png)
 
