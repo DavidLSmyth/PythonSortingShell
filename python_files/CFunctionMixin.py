@@ -18,12 +18,14 @@ class CFunctionMixin():
     c_modules_compiled = False
     plat = platform.platform().lower()
     print('Platform: ', plat)
+    working_dir = os.getcwd()
+    print(working_dir)
     #def __setup(self):
 
     if 'windows' in plat:
         if not c_modules_compiled:
             print('Rebuilding windows sorting dll')
-            os.chdir('..\\c_code')
+            os.chdir(os.path.dirname(os.path.realpath(__file__)) + '/../c_code')
             subprocess.call(["make", "-f", "MakeFileWin", "clean"])
             subprocess.call(["make", "-f", "MakeFileWin"])
             os.chdir('..\\python_files')

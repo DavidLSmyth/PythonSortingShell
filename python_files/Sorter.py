@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 #user defined modules
 #from ..python_files\
 
-from AlgoAnalyser import AlgoProfiler
-from SortingBase import SortingBase
+from .AlgoAnalyser import AlgoProfiler
+from .SortingBase import SortingBase
 
 class Sorter:
     '''A class which can load and unload sorting classes from SortingClasses into the workspace. 

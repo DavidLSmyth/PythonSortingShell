@@ -9,16 +9,20 @@ import unittest
 import random
 import math
 #import ctypes
-
+import os
 #3rd party imports
 import sys
-sys.path.append('../..')
+sys.path.insert(0,os.path.abspath(__file__))
+sys.path.append('..')
 #User defined imports
-from PythonSortingShell.python_files.SortingBase import SortingBase
-from PythonSortingShell.python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive,
+#from context import python_files
+from python_files.SortingBase import SortingBase
+from python_files.SortingClasses import (MergeSort, MergeSortRecursive, BubbleSort, BubbleSortRecursive,
 InsertionSort, QuickSort, CInsertionSort, CBubbleSort, CMergeSort)
 
-class TestSortingClasses(unittest.TestCase):
+
+
+class SortingClassesTest(unittest.TestCase):
     
     def c_helper_sorting_method(self, sorting_class):
         '''C wrapper sorting methods should satisfy these tests. They are written out

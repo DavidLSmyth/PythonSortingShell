@@ -7,8 +7,11 @@ Created on Tue Sep 12 14:09:58 2017
 
 import unittest
 import sys
-sys.path.append('../..')
-from PythonSortingShell.python_files.Sorter import Sorter
+import os
+#sys.path.append('..')
+sys.path.insert(0,os.path.abspath(__file__))
+#from .context import python_files
+from python_files.Sorter import Sorter
 
 class TestSorter(unittest.TestCase):
     
@@ -26,7 +29,7 @@ class TestSorter(unittest.TestCase):
         #from python_files.SortingClasses import MergeSort
         self.sorter.load_sorting_method('MergeSort')
         #strange behaviour observed here
-        from PythonSortingShell.python_files.SortingClasses import MergeSort
+        from python_files.SortingClasses import MergeSort
         self.assertEqual(MergeSort.__name__, self.sorter.get_sorting_class('MergeSort').__name__)
         #del MergeSort
         

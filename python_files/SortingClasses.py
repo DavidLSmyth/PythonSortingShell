@@ -13,10 +13,10 @@ from random import randint
 #from PythonSortingShell.python_files.SortingBase import SortingBase
 #from PythonSortingShell.python_files.CFunctionMixin import CFunctionMixin
 
-from SortingMeta import SortingMeta
+
 from SortingBase import SortingBase
 from CFunctionMixin import CFunctionMixin
-
+from SortingMeta import SortingMeta
 
 class BubbleSort(SortingBase, metaclass=SortingMeta):
     
