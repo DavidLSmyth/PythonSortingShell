@@ -1,4 +1,4 @@
-# PythonSortingShell ![alt text](https://travis-ci.org/DavidLSmyth/PythonSortingShell.svg?branch=master)
+# PythonSortingShell [![Build Status](https://travis-ci.org/DavidLSmyth/PythonSortingShell.svg?branch=master)](https://travis-ci.org/DavidLSmyth/PythonSortingShell)
 A project which implements various sorting algorithms which can then be benchmarked against each other. Written to practice: 
 
 * Using github to effectively version control the project.
