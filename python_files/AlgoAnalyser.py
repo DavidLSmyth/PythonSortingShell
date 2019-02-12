@@ -99,8 +99,13 @@ class AlgoProfiler:
     def __init__(self):
         self.possible_algos = self.PossibleAlgos()
         
+    def _sim_annealing_algo(self, ):
+        pass
         
-    def analyse(self, input_sizes , output_times):
+    def analyse_gradient_desc(self, input_sizes, output_times):
+        pass
+        
+    def analyse_brute(self, input_sizes , output_times):
         '''Returns the most likely runtime functions given input sizes and corresponding output times'''
         reg = linear_model.LinearRegression(fit_intercept = False)
         r2_scores = []
@@ -146,7 +151,7 @@ class AlgoProfiler:
             def __call__(self, x):
                 #s = self.stepsize
                 #print('x before: ', x)
-                proposed_step = np.random.uniform(-x, self.upperbound - x) * 0.8
+                proposed_step = np.random.uniform(-x, self.upperbound - x) * 0.5
                 x += proposed_step
                 #print('proposed step: ', proposed_step)
                 #print('x after: ', x)
@@ -165,23 +170,24 @@ class AlgoProfiler:
         x0 = [len(self.possible_algos.common_runtimes)/2]
         #accept_test = lambda soln: True if abs(1-soln) <= 0.01 else False
         my_step = MyTakeStep()
-        return self.possible_algos.common_runtimes[int(basinhopping(func=opt_func, x0=x0, niter = 100, take_step = my_step).x)]
+        return self.possible_algos.common_runtimes[int(basinhopping(func=opt_func, x0=x0, niter = 5000, take_step = my_step).x)]
         
         
         
         
 def main():
-    inputs = [i for i in range(1,100)]
-    runtimes_x2 = [inp**2 for inp in inputs]
-    runtimes_x7 = [inp**7 for inp in inputs]
-    runtimes_5x = [5**inp for inp in inputs]
-    print(AlgoProfiler().analyse(inputs, runtimes_x2))
-    print(AlgoProfiler().analyse(inputs, runtimes_x7))    
-    print(AlgoProfiler().analyse(inputs, runtimes_5x))
+    import random
+    inputs = [i for i in range(1,200)]
+    runtimes_x2 = [(inp + (random.random() * inp))**2 for inp in inputs]
+    runtimes_x7 = [(inp + (random.random() * inp))**7 for inp in inputs]
+    runtimes_3x = [3**(inp + (random.random())) for inp in inputs]
+    print('brute force found: ',AlgoProfiler().analyse_brute(inputs, runtimes_x2).__doc__, 'should be x**2')
+    print('brute force found: ',AlgoProfiler().analyse_brute(inputs, runtimes_x7).__doc__, 'should be x**7')
+    print('brute force found: ',AlgoProfiler().analyse_brute(inputs, runtimes_3x).__doc__, 'should be 3**x')
     #should be 45
-    print('Simulated annealing found: ',int(AlgoProfiler().analyse_sim_annealing(inputs, runtimes_5x).x))
-    print(AlgoProfiler().analyse_sim_annealing(inputs, runtimes_5x))
-    print('Simulated annealing found: ', int(AlgoProfiler().analyse_sim_annealing(inputs, runtimes_x7).x))   
+    print('Simulated annealing found: ', AlgoProfiler().analyse_sim_annealing(inputs, runtimes_3x).__doc__, 'should be 3**x')
+    print(AlgoProfiler().analyse_sim_annealing(inputs, runtimes_3x))
+    print('Simulated annealing found: ', AlgoProfiler().analyse_sim_annealing(inputs, runtimes_x7).__doc__, 'should be x**7') 
     
         
 if __name__ == '__main__':

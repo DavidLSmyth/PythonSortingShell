@@ -14,7 +14,7 @@ import os
 #sys.path.append('../..')
 #user defined
 print(sys.path)
-sys.path.append('..')
+#explicitly append this to tests so that problems with imports are not encountered
 sys.path.append('../python_files')
 sys.path.insert(0,os.path.abspath(__file__))
 from SortingClassesTest import SortingClassesTest
